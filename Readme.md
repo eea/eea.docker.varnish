@@ -55,3 +55,29 @@ The command will load the new configuration, compile it, and if compilation succ
   * `CACHE_SIZE` Size of the cache storage
   * `ADDRESS_PORT` HTTP listen address and port
   * `PARAM_VALUE` A list of parameter-value pairs, each preceeded by the `-p` flag
+
+### Docker Compose example
+Here is a basic example of a `docker-compose.yml` file using the `eeacms/varnish` docker image:
+
+    database:
+      image: eeacms/postgres
+
+    app:
+      image: eeacms/plone-instance
+      links:
+       - database
+
+    varnish:
+      image: eeacms/varnish
+      links:
+       - app
+      volumes:
+       - /absolute/path/to/varnish/conf.d/directory/:/etc/varnish/conf.d/
+      # env_file:
+       # - /path/to/varnish.env
+
+The application can be scaled to use more application instances, with `docker-compose scale`:
+
+    $ docker-compose scale database=1 app=<number of instances> varnish=1
+
+An example of such an application is [EEAGlossary](https://github.com/eea/eea.docker.glossary).
