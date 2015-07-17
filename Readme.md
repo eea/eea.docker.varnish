@@ -1,11 +1,12 @@
 ## Varnish Docker image
 
- > Centos 7
- > Varnish 4.x
+ - Centos 7
+ - Varnish 4.x
 
 ### Supported tags and respective Dockerfile links
 
-  - `:4` (default)
+  - `:4`, `:latest` (default)
+  - `:3`
 
 ### Base docker image
 
