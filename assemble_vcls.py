@@ -2,14 +2,14 @@ import subprocess
 
 def add_includes(g):
     print >> g
-    p = subprocess.Popen(["ls", "/conf.d"], stdout=subprocess.PIPE)
+    p = subprocess.Popen(["ls", "/etc/varnish/conf.d/"], stdout=subprocess.PIPE)
     out, err = p.communicate()
     includes = out.split("\n")[0:-1]
     includes.sort()
     for include in includes:
         if ".vcl" not in include:
             continue
-        print >> g, 'include "/conf.d/' + include + '";'
+        print >> g, 'include "/etc/varnish/conf.d/' + include + '";'
 
 
 g = open("/etc/varnish/temp_default.vcl", "w")

@@ -36,7 +36,7 @@ To use this container, you will need to provide your custom `.vcl` files. The `d
 
 Since the configuration directory is mounted as a volume, you can modify its content from outside the container. In order for the modifications to be loaded by the varnish daemon, you have to run the `reload` command, as following:
 
-    $ docker exec eeacms/varnish:4 reload
+    $ docker exec <container-name-or-id> reload
 
 The command will load the new configuration, compile it, and if compilation succeeds replace the old one with it. If compilation of the new configuration fails, the varnish daemon will continue to use the old configuration. Keep in mind that the only way to restore a previous configuration is to restore the configuration files and then reload them.
 
