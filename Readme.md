@@ -25,12 +25,9 @@
 
 To use this container, you will need to provide your custom `.vcl` files. The `default.vcl` file is static and serves as base configuration that may not be changed once the container is running. The configuration files found in the `conf.d` directory are automatically included into the base `default.vcl` file in lexico-graphic order (keep in mind that in VCL the order files are included matters, so name your configuration files accordingly). The directory containing the configuration files must be mounted as a volume, located at `/etc/varnish/conf.d/` inside the container.
 
-    $ # The container is ran in the background with the directory
-    $ # '/absolute/path/to/configuration/directory' mounted in
-    $ # '/etc/varnish/conf.d'
     $ docker run -d \
-    $   -v /absolute/path/to/configuration/directory:/etc/varnish/conf.d \
-    $   eeacms/varnish:3
+        -v /absolute/path/to/configuration/directory:/etc/varnish/conf.d \
+        eeacms/varnish:3
 
 
 ### Upgrade
