@@ -1,6 +1,7 @@
 import os
 import subprocess
 
+
 def add_includes(g):
     print >> g
     includes = os.listdir("/etc/varnish/conf.d")

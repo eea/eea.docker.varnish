@@ -10,6 +10,7 @@ RUN yum updateinfo -y && \
     mkdir -p /etc/varnish/conf.d/
 
 COPY assemble_vcls.py   /assemble_vcls.py
+COPY add_backends.py	/add_backends.py
 COPY start.sh           /usr/bin/start
 COPY reload.sh          /usr/bin/reload
 COPY default.vcl        /etc/varnish/default.vcl

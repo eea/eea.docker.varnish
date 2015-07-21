@@ -2,8 +2,6 @@
 
 set -e
 
-python /assemble_vcls.py
-
 # Priviledge separation user id
 if [ ! -z "$PRIVILEDGED_USER" ]; then
     PARAMS="$PARAMS -u $PRIVILEDGED_USER"
@@ -33,7 +31,12 @@ if [ ! -z "$BACKENDS" ]; then
 		PARAMS="$PARAMS -b $BACKEND"
 	done
 else
+    if ! test "$(ls -A /etc/varnish/conf.d/)"; then
+        python add_backends.py
+    fi
 	PARAMS="$PARAMS -f /etc/varnish/default.vcl"
 fi
+
+python /assemble_vcls.py
 
 exec varnishd -F $PARAMS
