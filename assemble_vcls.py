@@ -1,10 +1,9 @@
-import subprocess
+import os
+
 
 def add_includes(g):
     print >> g
-    p = subprocess.Popen(["ls", "/etc/varnish/conf.d/"], stdout=subprocess.PIPE)
-    out, err = p.communicate()
-    includes = out.split("\n")[0:-1]
+    includes = os.listdir("/etc/varnish/conf.d")
     includes.sort()
     for include in includes:
         if ".vcl" not in include:
