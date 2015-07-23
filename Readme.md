@@ -33,7 +33,7 @@ Setting the `BACKENDS` variable overrides any other options and is a way to quic
 
     $ docker run -p 8080:80 --env BACKENDS="87.54.7.167:80" eeacms/varnish:4
 
-The command above forwards the port 80 in the container to `port 8080` on your machine, so you can view the results in your browser, and adds a backend with the `IP 87.54.7.167` providing services on the `port 80`.
+The command above forwards `port 80` in the container to `port 8080` on your machine, so you can view the results in your browser, and adds a backend with the `IP 87.54.7.167` providing services on `port 80`.
 
 You can also specify hosts by name, but they have to be included in `/etc/hosts` in the container. This could be done, for example, by extending the image and adding a custom `/etc/hosts` file inside the container, overwriting the default one.
 
