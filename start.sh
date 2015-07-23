@@ -27,16 +27,14 @@ else
 fi
 
 if [ ! -z "$BACKENDS" ]; then
-	for BACKEND in $(echo "$BACKENDS" | tr ' ' '\n'); do
-		PARAMS="$PARAMS -b $BACKEND"
-	done
+    python add_backends.py env
 else
     if ! test "$(ls -A /etc/varnish/conf.d/)"; then
-        python add_backends.py
+        python add_backends.py hosts
+        track_hosts &
     fi
-	PARAMS="$PARAMS -f /etc/varnish/default.vcl"
 fi
 
 python /assemble_vcls.py
 
-exec varnishd -F $PARAMS
+exec varnishd -F -f /etc/varnish/default.vcl $PARAMS
