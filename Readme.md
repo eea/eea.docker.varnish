@@ -25,29 +25,33 @@
 ## Usage
 
 
-### Run with backends specified as environment variables
+### Run with backends specified as environment variable
 
-    $ docker run --env BACKENDS=74.125.140.103:80 eeacms/varnish:4
+    $ docker run --env BACKENDS="74.125.140.103:80" eeacms/varnish:4
 
-Setting the `BACKENDS` variable tells varnish to use the `-b` parameter and thus not use any `.vcl` files. To test this functionality you can run the commant above and navigate to `localhost:8080` inside your browser.
+Setting the `BACKENDS` variable overrides any other options and is a way to quickstart the container. A configuration file will be created and loaded automatically based on the contents of the variable.
 
-    $ docker run -p 8080:80 --env BACKENDS=87.54.7.167:80 eeacms/varnish:4
+    $ docker run -p 8080:80 --env BACKENDS="87.54.7.167:80" eeacms/varnish:4
 
-The command forwards the port 80 in the container to port 8080 on your machine, so you can view the results in your browser, and adds a backend with the IP 87.54.7.167 providing services on the port 80.
+The command above forwards the port 80 in the container to `port 8080` on your machine, so you can view the results in your browser, and adds a backend with the `IP 87.54.7.167` providing services on the `port 80`.
 
-You can specify hosts by name, but they have to be included in `/etc/hosts` in the container. This could be done, for example, by extending the image and adding a custom /etc/hosts file inside the container, overwriting the default one.
+You can also specify hosts by name, but they have to be included in `/etc/hosts` in the container. This could be done, for example, by extending the image and adding a custom `/etc/hosts` file inside the container, overwriting the default one.
 
-### Mount a conf.d directory as a volume 
+### Link this container to one or more application containers
 
-To use this container, you will need to provide your custom `.vcl` files. The `default.vcl` file is static and serves as base configuration that may not be changed once the container is running. The configuration files found in the `conf.d` directory are automatically included into the base `default.vcl` file in lexico-graphic order (keep in mind that in VCL the order files are included matters, so name your configuration files accordingly). The directory containing the configuration files must be mounted as a volume, located at `/etc/varnish/conf.d/` inside the container.
+    $ docker run --link app_instance_1 --link app_instance_2 eeacms/varnish:4
 
-    $ docker run -d \
-        -v /absolute/path/to/configuration/directory:/etc/varnish/conf.d \
-        eeacms/varnish:4
+When linking containers with the `--link` flag, entries in `/etc/hosts` are automatically added by `docker`. This image is configured so in absence of a `conf.d` directory (or in case of an empty one) and when the `BACKENDS` variable is not set it will automatically parse `/etc/hosts` and create and load the configuration for `varnish`. In this scenario, the file `/etc/hosts` will be monitored and everytime it is modified (for example when restarting a linked container) configuration for `varnish` will be automatically recreated and reloaded.
+
+### Mount a conf.d directory as a volume
+
+To adapt this container specifically to your needs, you will need to provide your custom `.vcl` files. The `default.vcl` file is static and serves as base configuration that may not be changed once the container is running. The configuration files found in the `conf.d` directory are automatically included into the base `default.vcl` file in lexico-graphic order (keep in mind that in VCL the order files are included matters, so name your configuration files accordingly). The directory containing the configuration files must be mounted as a volume, located at `/etc/varnish/conf.d/` inside the container.
+
+    $ docker run -v /absolute/path/to/configuration/directory:/etc/varnish/conf.d eeacms/varnish:4
 
 ### Extend the image with a custom default.vcl file
 
-The `default.vcl` file provided with this image is bare and only contains the marker to specify the VCL version. If you want to use your own file, you can extend the image in a Dockerfile, like this:
+The `default.vcl` file provided with this image is bare and only contains the marker to specify the VCL version. If you plan on using a more elaborate base configuration in your container and you want it shipped with your image, you can extend the image in a Dockerfile, like this:
 
     FROM eeacms/varnish:4
     COPY /absolute/path/to/my/default.vcl/file:/etc/varnish/default.vcl
@@ -81,33 +85,28 @@ The command will load the new configuration, compile it, and if compilation succ
   * `CACHE_SIZE` Size of the cache storage
   * `ADDRESS_PORT` HTTP listen address and port
   * `PARAM_VALUE` A list of parameter-value pairs, each preceeded by the `-p` flag
-  * `BACKENDS` A list of `host:port` pairs separated by space (e.g. `BACKENDS=127.0.0.1:80 74.125.140.103:80`) that will override the VCL configuration
+  * `BACKENDS` A list of `host:port` pairs separated by space (e.g. `BACKENDS="127.0.0.1:80 74.125.140.103:80"`) that will override `/etc/hosts` parsing and the VCL configuration
 
 ### Docker Compose example
 Here is a basic example of a `docker-compose.yml` file using the `eeacms/varnish` docker image:
 
-    database:
-      image: eeacms/postgres
-
-    app:
-      image: eeacms/plone-instance
-      links:
-       - database
+    httpserver:
+      image: razvan3895/nodeserver
 
     varnish:
       image: eeacms/varnish
       links:
-       - app
-      volumes:
-       - /absolute/path/to/varnish/conf.d/directory/:/etc/varnish/conf.d/
+       - httpserver
+      ports:
+       - "8080:80"
       # env_file:
        # - /path/to/varnish.env
 
-The application can be scaled to use more application instances, with `docker-compose scale`:
+The application can be scaled to use more server instances as backends, with `docker-compose scale`:
 
-    $ docker-compose scale database=1 app=<number of instances> varnish=1
+    $ docker-compose scale httpserver=<number of instances> varnish=1
 
-An example of such an application is [EEAGlossary](https://github.com/eea/eea.docker.glossary).
+An example of a more complex application using the `eeacms/varnish:4` with `docker-compose` image is [EEAGlossary](https://github.com/eea/eea.docker.glossary).
 
 ## Copyright and license
 
