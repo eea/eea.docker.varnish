@@ -11,4 +11,4 @@ COPY assemble_vcls.py   /assemble_vcls.py
 COPY start.sh           /usr/bin/start
 COPY default.vcl        /etc/varnish/default.vcl
 
-CMD ["/start.sh"]
+CMD ["start"]

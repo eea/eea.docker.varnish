@@ -12,12 +12,13 @@ def add_includes(g):
 
 
 g = open("/etc/varnish/temp_default.vcl", "w")
-with open("/etc/varnish/default.vcl", "r") as f, open("/etc/varnish/temp_default.vcl", "w") as g:
-    for line in f:
-        if line[0] is not "#" and "include" in line:
-            continue
-        print >> g, line,
+with open("/etc/varnish/default.vcl", "r") as f:
+    with open("/etc/varnish/temp_default.vcl", "w") as g:
+        for line in f:
+            if line[0] is not "#" and "include" in line:
+                continue
+            print >> g, line,
 
-    add_includes(g)
+        add_includes(g)
 
 subprocess.call(["mv", "/etc/varnish/temp_default.vcl", "/etc/varnish/default.vcl"])
