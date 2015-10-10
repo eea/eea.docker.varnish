@@ -50,7 +50,7 @@ if sys.argv[1] == "hosts":
         print >> backends, recv_conf
 
 else:
-    hosts = os.environ['BACKENDS'].split()
+    hosts = os.environ['BACKENDS'].strip('"').split()
     for host in hosts:
         host_name_or_ip = host.split(':')[0]
         host_port = host.split(':')[1]
