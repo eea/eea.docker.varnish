@@ -44,7 +44,7 @@ Here is a basic example of a `docker-compose.yml` file using the `eeacms/varnish
       - webapp
 
     webapp:
-      image: razvan3895/nodeserver
+      image: eeacms/hello
 
 
 The application can be scaled to use more server instances as backends, with `docker-compose scale`:

@@ -6,4 +6,4 @@ varnish:
   - webapp
 
 webapp:
-  image: razvan3895/nodeserver
+  image: eeacms/hello

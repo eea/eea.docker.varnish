@@ -1,6 +1,5 @@
 FROM centos:centos7
-
-MAINTAINER "Razvan Chitu" <razvan.chitu@eaudeweb.ro>
+MAINTAINER "Alin Voinea" <alin.voinea@eaudeweb.ro>
 
 RUN yum updateinfo -y && \
     yum install -y epel-release && \
