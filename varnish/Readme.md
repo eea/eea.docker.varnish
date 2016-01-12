@@ -8,17 +8,24 @@ your non-related EEA projects.
  - Centos 7
  - Varnish 4.x
 
+### Warning
+
+For security reasons, latest builds of this image run Varnish on default port **6081**
+instead of **80**. Please update your deployment accordingly.
+
 
 ## Supported tags and respective Dockerfile links
 
   - `:4`, `:latest` (default)
   - `:3`
 
+### Changes
+
+ - [CHANGELOG.md](https://github.com/eea/eea.docker.varnish/blob/master/CHANGELOG.md)
 
 ## Base docker image
 
  - [hub.docker.com](https://registry.hub.docker.com/u/eeacms/varnish)
-
 
 ## Source code
 
@@ -108,7 +115,11 @@ elaborate base configuration in your container and you want it shipped with
 your image, you can extend the image in a Dockerfile, like this:
 
     FROM eeacms/varnish:4
-    COPY /absolute/path/to/my/default.vcl/file:/etc/varnish/default.vcl
+    COPY /absolute/path/to/my/backends.vcl /etc/varnish/conf.d/backends.vcl
+
+    USER root
+    yum install
+    USER varnish
 
 and then run
 
@@ -141,8 +152,6 @@ restore the configuration files and then reload them.
 ## Supported environment variables ##
 
 
-### varnish.env ###
-
 As varnish has close to no purpose by itself, this image should be used
 in combination with others with [Docker Compose](https://docs.docker.com/compose/).
 The varnish daemon can be configured by modifying the following env variables,
@@ -150,12 +159,18 @@ either when running the container or in a `docker-compose.yml` file,
 using the `env_file` tag.
 
 * `PRIVILEDGED_USER` Priviledge separation user id
-* `CACHE_SIZE` Size of the cache storage
+* `CACHE_SIZE` Size of the RAM cache storage
+* `CACHE_STORAGE` Override default RAM cache (e.g. `file,/var/lib/varnish/varnish_storage.bin,1G`)
 * `ADDRESS_PORT` HTTP listen address and port
 * `PARAM_VALUE` A list of parameter-value pairs, each preceeded by the `-p` flag
 * `BACKENDS` A list of `host:port` pairs separated by space
-  (e.g. `BACKENDS="127.0.0.1:80 74.125.140.103:80"`) that will override `/etc/hosts`
-  parsing and the VCL configuration
+  (e.g. `BACKENDS="127.0.0.1:80 74.125.140.103:80"`)
+* `BACKENDS_PORT` Default port to be used for backends (defalut `80`)
+* `BACKENDS_PROBE_URL` Backend probe URL (default `/`)
+* `BACKENDS_PROBE_TIMEOUT` Backend probe timeout (defalut `1s`)
+* `BACKENDS_PROBE_INTERVAL` Backend probe interval (defalut `1s`)
+* `BACKENDS_PROBE_WINDOW` Backend probe window (defalut `3`)
+* `BACKENDS_PROBE_THRESHOLD` Backend probe threshold (defalut `2`)
 
 
 ## Copyright and license

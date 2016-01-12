@@ -1,6 +1,4 @@
 import os
-import subprocess
-
 
 def add_includes(g):
     print >> g
@@ -11,8 +9,6 @@ def add_includes(g):
             continue
         print >> g, 'include "/etc/varnish/conf.d/' + include + '";'
 
-
-g = open("/etc/varnish/temp_default.vcl", "w")
 with open("/etc/varnish/default.vcl", "r") as f, open("/etc/varnish/temp_default.vcl", "w") as g:
     for line in f:
         if line[0] is not "#" and "include" in line:
@@ -21,4 +17,4 @@ with open("/etc/varnish/default.vcl", "r") as f, open("/etc/varnish/temp_default
 
     add_includes(g)
 
-subprocess.call(["mv", "/etc/varnish/temp_default.vcl", "/etc/varnish/default.vcl"])
+os.rename("/etc/varnish/temp_default.vcl", "/etc/varnish/default.vcl")

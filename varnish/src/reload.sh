@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ -f /etc/varnish/hosts.backends ]; then
+  python /add_backends.py hosts
+fi
+
 # Make a copy of the existing configuration file
 cp /etc/varnish/default.vcl /etc/varnish/old_default.vcl
 python /assemble_vcls.py
@@ -16,10 +20,9 @@ if [ $? -eq 0 ]; then
         varnishadm "vcl.discard $CONFIG_NAME"
     done
     rm /etc/varnish/old_default.vcl
-    echo "==== SUCCESSFULLY RELOADED VCL FILE ===="
+    echo "======           SUCCESSFULLY RELOADED VCL FILE               ======"
 else
     # If the load fails, restore the old configuration file
     mv /etc/varnish/old_default.vcl /etc/varnish/default.vcl
-    echo "======     FAILURE TO RELOAD      ======"
-    echo "====== PLEASE CHECK CONFIGURATION ======"
+    echo "======     FAILURE TO RELOAD. PLEASE CHECK CONFIGURATION      ======"
 fi
