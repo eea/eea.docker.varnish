@@ -48,7 +48,7 @@ Here is a basic example of a `docker-compose.yml` file using the `eeacms/varnish
     varnish:
       image: eeacms/varnish
       ports:
-      - "80:80"
+      - "80:6081"
       links:
       - webapp
 
@@ -70,11 +70,11 @@ Setting the `BACKENDS` variable overrides any other options and is a way
 to quickstart the container. A configuration file will be created and
 loaded automatically based on the contents of the variable.
 
-    $ docker run -p 80:80 --env BACKENDS="192.168.1.5:80 192.168.1.6:80" eeacms/varnish
+    $ docker run -p 80:6081 -e BACKENDS="192.168.1.5 192.168.1.6" -e BACKENDS_PORT=8080 eeacms/varnish
 
-The command above forwards `port 80` in the container to `port 80` on your machine,
+The command above forwards `port 6081` in the container to `port 80` on your machine,
 so you can view the results in your browser, and adds two backends with the `IP 192.168.1.5`
-and `IP 192.168.1.6` providing services on `port 80`.
+and `IP 192.168.1.6` providing services on `port 8080`.
 
 You can also specify hosts by name, but they have to be included in `/etc/hosts`
 in the container.  This could be done, for example, by extending the image
@@ -90,7 +90,7 @@ are automatically added by `docker`. This image is configured so in absence of
 a `conf.d` directory (or in case of an empty one) and when the `BACKENDS`
 variable is not set it will automatically parse `/etc/hosts` and create and
 load the configuration for `varnish`. In this scenario, the file `/etc/hosts`
-will be monitored and everytime it is modified (for example when restarting
+will be monitored and every time it is modified (for example when restarting
 a linked container) configuration for `varnish` will be automatically
 recreated and reloaded.
 
@@ -106,7 +106,7 @@ included into the base `default.vcl` file in lexico-graphic order
 configuration files accordingly). The directory containing the configuration
 files must be mounted as a volume, located at `/etc/varnish/conf.d/` inside the container.
 
-    $ docker run -v conf.d:/etc/varnish/conf.d eeacms/varnish:4
+    $ docker run -v $(pwd)/conf.d:/etc/varnish/conf.d eeacms/varnish
 
 
 ### Extend the image with a custom default.vcl file
@@ -117,15 +117,15 @@ elaborate base configuration in your container and you want it shipped with
 your image, you can extend the image in a Dockerfile, like this:
 
     FROM eeacms/varnish:4
-    COPY /absolute/path/to/my/backends.vcl /etc/varnish/conf.d/backends.vcl
+    COPY backends.vcl /etc/varnish/conf.d/backends.vcl
 
     USER root
-    yum install
+    yum install ...
     USER varnish
 
 and then run
 
-    $ docker build -t your-image-name:your-image-tag /path/to/Dockerfile
+    $ docker build -t varnish:custom /path/to/Dockerfile
 
 As before, you are able to mount a `conf.d` directory in which to put your `.vcl`
 files, in order to have modular configuration.
@@ -149,7 +149,7 @@ restore the configuration files and then reload them.
 
 ### Upgrade
 
-    $ docker pull eeacms/varnish:4
+    $ docker pull eeacms/varnish
 
 ## Supported environment variables ##
 
@@ -160,7 +160,7 @@ The varnish daemon can be configured by modifying the following env variables,
 either when running the container or in a `docker-compose.yml` file,
 using the `env_file` tag.
 
-* `PRIVILEDGED_USER` Priviledge separation user id
+* `PRIVILEDGED_USER` Priviledge separation user id (e.g. `varnish`)
 * `CACHE_SIZE` Size of the RAM cache storage
 * `CACHE_STORAGE` Override default RAM cache (e.g. `file,/var/lib/varnish/varnish_storage.bin,1G`)
 * `ADDRESS_PORT` HTTP listen address and port (default `:6081`)
