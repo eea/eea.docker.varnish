@@ -16,8 +16,10 @@ instead of **80**. Please update your deployment accordingly.
 
 ## Supported tags and respective Dockerfile links
 
-  - `:4`, `:latest` (default)
-  - `:3`
+  - `:latest` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/master/Dockerfile) (default)
+  - `:4s` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/4s/Dockerfile) (security)
+  - `:4` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/4/Dockerfile)
+  - `:3` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/3/Dockerfile)
 
 ### Changes
 
@@ -161,7 +163,8 @@ using the `env_file` tag.
 * `PRIVILEDGED_USER` Priviledge separation user id
 * `CACHE_SIZE` Size of the RAM cache storage
 * `CACHE_STORAGE` Override default RAM cache (e.g. `file,/var/lib/varnish/varnish_storage.bin,1G`)
-* `ADDRESS_PORT` HTTP listen address and port
+* `ADDRESS_PORT` HTTP listen address and port (default `:6081`)
+* `ADMIN_PORT` HTTP admin address and port (e.g. `:6082`)
 * `PARAM_VALUE` A list of parameter-value pairs, each preceeded by the `-p` flag
 * `BACKENDS` A list of `host:port` pairs separated by space
   (e.g. `BACKENDS="127.0.0.1:80 74.125.140.103:80"`)
