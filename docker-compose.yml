@@ -1,0 +1,9 @@
+varnish:
+  image: eeacms/varnish:3
+  ports:
+  - "80:80"
+  links:
+  - webapp
+
+webapp:
+  image: eeacms/hello
