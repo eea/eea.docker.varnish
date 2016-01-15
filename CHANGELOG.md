@@ -2,7 +2,7 @@
 
 ## 2016-01-13
 
-- Start Zope on port *6081* instead of *80*
+- Start Varnish on port *6081* instead of *80*
 
 - Start all processes with *varnish* user instead of *root*
 

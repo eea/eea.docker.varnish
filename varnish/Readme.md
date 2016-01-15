@@ -16,10 +16,10 @@ instead of **80**. Please update your deployment accordingly.
 
 ## Supported tags and respective Dockerfile links
 
-  - `:latest` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/master/Dockerfile) (default)
-  - `:4s` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/4s/Dockerfile) (security)
-  - `:4` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/4/Dockerfile)
-  - `:3` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/3/Dockerfile)
+  - `:latest` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/master/varnish/Dockerfile) (default)
+  - `:4s` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/4s/varnish/Dockerfile) (security)
+  - `:4` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/4/varnish/Dockerfile)
+  - `:3` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/3/varnish/Dockerfile)
 
 ### Changes
 
