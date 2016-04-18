@@ -1,12 +1,12 @@
 #!/bin/bash
 
 if [ -f /etc/varnish/hosts.backends ]; then
-  python /add_backends.py hosts
+  python3 /add_backends.py hosts
 fi
 
 # Make a copy of the existing configuration file
 cp /etc/varnish/default.vcl /etc/varnish/old_default.vcl
-python /assemble_vcls.py
+python3 /assemble_vcls.py
 
 # Generate a name for the new configuration
 NEW_CONFIG_NAME="boot-$RANDOM"
