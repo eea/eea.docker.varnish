@@ -143,6 +143,7 @@ elif sys.argv[1] == "env":
 
         init_conf += init_conf_director % dict(director=name)
         init_conf += init_conf_backend % dict(
+            director=name,
             name=name,
             index=index
         )
