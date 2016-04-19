@@ -21,16 +21,16 @@ sub vcl_init {
 """
 
 init_conf_director = """
-  new %(director)s_director = directors.round_robin();
+  new cluster_%(director)s = directors.round_robin();
 """
 
 init_conf_backend = """
-  %(director)s_director.add_backend(%(name)s_%(index)s);
+  cluster_%(director)s.add_backend(server_%(name)s_%(index)s);
 """
 
 backend_conf = ""
 backend_conf_add = """
-backend %(name)s_%(index)s {
+backend server_%(name)s_%(index)s {
     .host = "%(host)s";
     .port = "%(port)s";
     .probe = {
@@ -58,7 +58,7 @@ sub vcl_recv {
     return (purge);
   }
 
-  set req.backend_hint = %(director)s_director.backend();
+  set req.backend_hint = cluster_%(director)s.backend();
 }
 """
 
@@ -200,7 +200,7 @@ elif sys.argv[1] == "hosts":
         )
 
         init_conf += init_conf_backend % dict(
-            director="backends",
+            director=director,
             name=name,
             index=index
         )

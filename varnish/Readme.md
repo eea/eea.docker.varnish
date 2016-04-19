@@ -166,8 +166,8 @@ using the `env_file` tag.
 * `ADDRESS_PORT` HTTP listen address and port (default `:6081`)
 * `ADMIN_PORT` HTTP admin address and port (e.g. `:6082`)
 * `PARAM_VALUE` A list of parameter-value pairs, each preceeded by the `-p` flag
-* `BACKENDS` A list of `host:port` pairs separated by space
-  (e.g. `BACKENDS="127.0.0.1:80 74.125.140.103:80"`)
+* `BACKENDS` A list of `host[:port]` pairs separated by space
+  (e.g. `BACKENDS="127.0.0.1 74.125.140.103:8080"`)
 * `BACKENDS_PORT` Default port to be used for backends (defalut `80`)
 * `BACKENDS_PROBE_URL` Backend probe URL (default `/`)
 * `BACKENDS_PROBE_TIMEOUT` Backend probe timeout (defalut `1s`)
