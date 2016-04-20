@@ -1,22 +1,26 @@
 # Varnish Docker image
 
-Varnish docker image with support for links and reload
+Varnish docker image with support for dynamic backends, Rancher DNS, auto-configure
+and reload.
 
 This image is generic, thus you can obviously re-use it within
 your non-related EEA projects.
 
- - Centos 7
- - Varnish 4.x
+ - Centos 7 - **will rebase to Debian**
+ - Varnish **4.x**
+ - EXPOSE **6081**
 
 ### Warning
 
-For security reasons, latest builds of this image run Varnish on default port **6081**
-instead of **80**. Please update your deployment accordingly.
+We'll rebase this image to Debian as soon as there will be an official Docker
+Image for Varnish (see https://github.com/docker-library/official-images/pull/1294)
 
 
 ## Supported tags and respective Dockerfile links
 
-  - `:latest` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/master/varnish/Dockerfile) (default)
+  - `:latest` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/master/varnish/Dockerfile) (Centos 7 will change to Debian)
+  - `:debian` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/debian/varnish/Dockerfile) (Debian Jessie, varnish 4.1)
+  - `:centos` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/centos/varnish/Dockerfile) (Centos 7, varnish 4.0)
   - `:4s` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/4s/varnish/Dockerfile) (security)
   - `:4` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/4/varnish/Dockerfile)
   - `:3` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/3/varnish/Dockerfile)
@@ -80,6 +84,13 @@ You can also specify hosts by name, but they have to be included in `/etc/hosts`
 in the container.  This could be done, for example, by extending the image
 and adding a custom `/etc/hosts` file inside the container, overwriting the default one.
 
+If there are multiple DNS records for one or more of your `BACKENDS` (e.g. when deployed using Rancher),
+you can use `DNS_ENABLED` environment variable. This way, Varnish will load-balance
+all of your backends instead of only the first entry found:
+
+    $ docker run --link=webapp -e BACKENDS="webapp" -e DNS_ENABLED=true eeacms/varnish
+
+It will also automatically add/remove backends when you scale them.
 
 ### Link this container to one or more application containers
 
@@ -109,7 +120,7 @@ files must be mounted as a volume, located at `/etc/varnish/conf.d/` inside the 
     $ docker run -v $(pwd)/conf.d:/etc/varnish/conf.d eeacms/varnish
 
 
-### Extend the image with a custom default.vcl file
+### Extend the image with a custom varnish.vcl file
 
 The `default.vcl` file provided with this image is bare and only contains
 the marker to specify the VCL version. If you plan on using a more
@@ -118,10 +129,6 @@ your image, you can extend the image in a Dockerfile, like this:
 
     FROM eeacms/varnish:4
     COPY backends.vcl /etc/varnish/conf.d/backends.vcl
-
-    USER root
-    yum install ...
-    USER varnish
 
 and then run
 
@@ -174,7 +181,9 @@ using the `env_file` tag.
 * `BACKENDS_PROBE_INTERVAL` Backend probe interval (defalut `1s`)
 * `BACKENDS_PROBE_WINDOW` Backend probe window (defalut `3`)
 * `BACKENDS_PROBE_THRESHOLD` Backend probe threshold (defalut `2`)
-
+* `DNS_ENABLED` DNS lookup provided `BACKENDS`. Use this option when your backends are resolved by an internal/external DNS service (e.g. Rancher)
+* `DNS_TTL` DNS lookup backends every $DNS_TTL minutes. Default 1 minute.
+* `BACKENDS_SAINT_MODE` Register backends using [saintmode module](https://github.com/varnish/varnish-modules/blob/master/docs/saintmode.rst)
 
 ## Copyright and license
 
