@@ -13,10 +13,12 @@ BACKENDS_PROBE_TIMEOUT = os.environ.get('BACKENDS_PROBE_TIMEOUT', "1s").strip()
 BACKENDS_PROBE_INTERVAL = os.environ.get('BACKENDS_PROBE_INTERVAL', "1s").strip()
 BACKENDS_PROBE_WINDOW = os.environ.get('BACKENDS_PROBE_WINDOW', "3").strip()
 BACKENDS_PROBE_THRESHOLD = os.environ.get('BACKENDS_PROBE_THRESHOLD', "2").strip()
+BACKENDS_SAINT_MODE = os.environ.get("BACKENDS_SAINT_MODE", "").strip()
 
 init_conf = """
 import std;
 import directors;
+import saintmode;
 sub vcl_init {
 """
 
@@ -26,6 +28,11 @@ init_conf_director = """
 
 init_conf_backend = """
   cluster_%(director)s.add_backend(server_%(name)s_%(index)s);
+"""
+
+init_conf_saint_backend = """
+  new sm_%(name)s_%(index)s = saintmode.saintmode(server_%(name)s_%(index)s, 10);
+  cluster_%(director)s.add_backend(sm_%(name)s_%(index)s.backend());
 """
 
 backend_conf = ""
@@ -107,11 +114,18 @@ if sys.argv[1] == "dns":
                 probe_threshold=BACKENDS_PROBE_THRESHOLD
             )
 
-        init_conf += init_conf_backend % dict(
-            director=name,
-            name=name,
-            index=index
-        )
+        if BACKENDS_SAINT_MODE:
+            init_conf += init_conf_saint_backend % dict(
+                director=name,
+                name=name,
+                index=index
+            )
+        else:
+            init_conf += init_conf_backend % dict(
+                director=name,
+                name=name,
+                index=index
+            )
         FOUND_BACKENDS = True
 
     init_conf += "}"
@@ -142,11 +156,18 @@ elif sys.argv[1] == "env":
         )
 
         init_conf += init_conf_director % dict(director=name)
-        init_conf += init_conf_backend % dict(
-            director=name,
-            name=name,
-            index=index
-        )
+        if BACKENDS_SAINT_MODE:
+            init_conf += init_conf_saint_backend % dict(
+                director=name,
+                name=name,
+                index=index
+            )
+        else:
+            init_conf += init_conf_backend % dict(
+                director=name,
+                name=name,
+                index=index
+            )
         FOUND_BACKENDS = True
 
     init_conf += "}"
@@ -199,11 +220,18 @@ elif sys.argv[1] == "hosts":
             probe_threshold=BACKENDS_PROBE_THRESHOLD
         )
 
-        init_conf += init_conf_backend % dict(
-            director=director,
-            name=name,
-            index=index
-        )
+        if BACKENDS_SAINT_MODE:
+            init_conf += init_conf_saint_backend % dict(
+                director=director,
+                name=name,
+                index=index
+            )
+        else:
+            init_conf += init_conf_backend % dict(
+                director=director,
+                name=name,
+                index=index
+            )
 
         index += 1
 
