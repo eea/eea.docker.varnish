@@ -126,6 +126,7 @@ if sys.argv[1] == "dns":
 
 elif sys.argv[1] == "env":
     name = "backends"
+    directors = set()
     for index, host in enumerate(BACKENDS):
         host_split = host.split(":")
         host_name_or_ip = host_split[0]
@@ -143,7 +144,10 @@ elif sys.argv[1] == "env":
                 probe_threshold=BACKENDS_PROBE_THRESHOLD
         )
 
-        init_conf += init_conf_director % dict(director=name)
+        if name not in directors:
+            directors.add(name)
+            init_conf += init_conf_director % dict(director=name)
+
         init_conf += init_conf_backend % dict(
             director=name,
             name=name,
