@@ -63,7 +63,7 @@ sub vcl_recv {
 """
 
 def toName(text):
-    return text.replace('.', '_').replace('-', '_')
+    return text.replace('.', '_').replace('-', '_').replace(':', '_')
 
 
 FOUND_BACKENDS = False
