@@ -69,6 +69,8 @@ sub vcl_recv {
 }
 """
 
+def toName(text):
+    return text.replace('.', '_').replace('-', '_').replace(':', '_')
 
 
 FOUND_BACKENDS = False
@@ -90,7 +92,7 @@ if sys.argv[1] == "dns":
             print(err)
             continue
         else:
-            init_conf += init_conf_director % dict(director=host.replace('.', '_'))
+            init_conf += init_conf_director % dict(director=toName(host))
             for ip in records:
                 ips[str(ip)] = host
 
@@ -100,7 +102,7 @@ if sys.argv[1] == "dns":
         )
 
     for ip, host in ips.items():
-        name = host.replace('.', '_')
+        name = toName(host)
         index = ip.replace('.', '_')
         backend_conf += backend_conf_add % dict(
                 name=name,
@@ -142,7 +144,7 @@ elif sys.argv[1] == "env":
         host_split = host.split(":")
         host_name_or_ip = host_split[0]
         host_port = host_split[1] if len(host_split) > 1 else BACKENDS_PORT
-        name = host.replace(".", "_")
+        name = toName(host)
         backend_conf += backend_conf_add % dict(
                 name=name,
                 index=index,
