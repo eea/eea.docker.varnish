@@ -130,7 +130,7 @@ elif sys.argv[1] == "env":
         host_split = host.split(":")
         host_name_or_ip = host_split[0]
         host_port = host_split[1] if len(host_split) > 1 else BACKENDS_PORT
-        name = toName(host)
+        name = toName(host_name_or_ip)
         backend_conf += backend_conf_add % dict(
                 name=name,
                 index=index,
