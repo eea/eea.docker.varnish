@@ -6,20 +6,13 @@ and reload.
 This image is generic, thus you can obviously re-use it within
 your non-related EEA projects.
 
- - Centos 7 - **will rebase to Debian**
- - Varnish **4.x**
+ - Debian Jessie
+ - Varnish **4.1**
  - EXPOSE **6081**
-
-### Warning
-
-We'll rebase this image to Debian as soon as there will be an official Docker
-Image for Varnish (see https://github.com/docker-library/official-images/pull/1294)
-
 
 ## Supported tags and respective Dockerfile links
 
-  - `:latest` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/master/varnish/Dockerfile) (Centos 7 will change to Debian)
-  - `:debian` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/debian/varnish/Dockerfile) (Debian Jessie, varnish 4.1)
+  - `:4.1`, `:debian`, `:latest` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/master/varnish/Dockerfile) (Debian Jessie, Varnish 4.1)
   - `:centos` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/centos/varnish/Dockerfile) (Centos 7, varnish 4.0)
   - `:4s` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/4s/varnish/Dockerfile) (security)
   - `:4` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/4/varnish/Dockerfile)
@@ -65,7 +58,7 @@ The application can be scaled to use more server instances as backends, with `do
     $ docker-compose scale webapp=4 varnish=1
 
 An example of a more complex application using the `eeacms/varnish` with `docker-compose`
-image is [EEAGlossary](https://github.com/eea/eea.docker.glossary).
+image is [EEA WWW](https://github.com/eea/eea.docker.www).
 
 
 ### Run with backends specified as environment variable
@@ -127,12 +120,12 @@ the marker to specify the VCL version. If you plan on using a more
 elaborate base configuration in your container and you want it shipped with
 your image, you can extend the image in a Dockerfile, like this:
 
-    FROM eeacms/varnish:4
+    FROM eeacms/varnish:4.1
     COPY backends.vcl /etc/varnish/conf.d/backends.vcl
 
 and then run
 
-    $ docker build -t varnish:custom /path/to/Dockerfile
+    $ docker build -t varnish-custom /path/to/Dockerfile
 
 As before, you are able to mount a `conf.d` directory in which to put your `.vcl`
 files, in order to have modular configuration.
@@ -168,7 +161,7 @@ either when running the container or in a `docker-compose.yml` file,
 using the `env_file` tag.
 
 * `PRIVILEDGED_USER` Priviledge separation user id (e.g. `varnish`)
-* `CACHE_SIZE` Size of the RAM cache storage
+* `CACHE_SIZE` Size of the RAM cache storage (default `2G`)
 * `CACHE_STORAGE` Override default RAM cache (e.g. `file,/var/lib/varnish/varnish_storage.bin,1G`)
 * `ADDRESS_PORT` HTTP listen address and port (default `:6081`)
 * `ADMIN_PORT` HTTP admin address and port (e.g. `:6082`)
