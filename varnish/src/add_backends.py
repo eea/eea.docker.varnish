@@ -1,7 +1,7 @@
 import socket
 import sys
 import os
-import dns.resolver
+import subprocess
 
 ################################################################################
 # INIT
@@ -87,14 +87,15 @@ if sys.argv[1] == "dns":
         host = server_port[0]
         port = server_port[1] if len(server_port) > 1 else BACKENDS_PORT
         try:
-            records = dns.resolver.query(host)
+            records = subprocess.check_output(["getent", "hosts", host])
         except Exception as err:
             print(err)
             continue
         else:
             init_conf += init_conf_director % dict(director=toName(host))
-            for ip in records:
-                ips[str(ip)] = host
+            for record in records.splitlines():
+                ip = record.split()[0].decode()
+                ips[ip] = host
 
     with open('/etc/varnish/dns.backends', 'w') as bfile:
         bfile.write(
