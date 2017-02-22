@@ -1,5 +1,10 @@
 # Changelog
 
+
+## 2017-02-22
+
+- Release stable and immutable version: 4.1-1.0
+
 ## 2016-04-20
 
 - Added `centos` and `debian` tags. And when we will have an official `varnish`
