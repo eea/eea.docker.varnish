@@ -42,15 +42,20 @@ your non-related EEA projects.
 
 Here is a basic example of a `docker-compose.yml` file using the `eeacms/varnish` docker image:
 
-    varnish:
-      image: eeacms/varnish
-      ports:
-      - "80:6081"
-      links:
-      - webapp
+    version: "2"
+    services:
+      varnish:
+        image: eeacms/varnish
+        ports:
+        - "80:6081"
+        depends_on:
+        - webapp
+        environment:
+          DNS_ENABLED: "true"
+          BACKENDS: "webapp"
 
-    webapp:
-      image: eeacms/hello
+       webapp:
+        image: eeacms/hello
 
 
 The application can be scaled to use more server instances as backends, with `docker-compose scale`:
