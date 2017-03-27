@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 2017-03-27
+
+- Release stable and immutable version: 4.1-1.0
+
+- Possibility to disable backend probe via `BACKENDS_PROBE_ENABLED` env
+
 ## 2017-02-22
 
 - Release stable and immutable version: 4.1-1.0

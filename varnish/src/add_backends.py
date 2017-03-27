@@ -8,6 +8,7 @@ import subprocess
 ################################################################################
 BACKENDS = os.environ.get('BACKENDS', '').split(' ')
 BACKENDS_PORT = os.environ.get('BACKENDS_PORT', "80").strip()
+BACKENDS_PROBE_ENABLED = os.environ.get('BACKENDS_PROBE_ENABLED', "True").strip().lower() in ("true", "yes", "1")
 BACKENDS_PROBE_URL = os.environ.get('BACKENDS_PROBE_URL', "/").strip()
 BACKENDS_PROBE_TIMEOUT = os.environ.get('BACKENDS_PROBE_TIMEOUT', "1s").strip()
 BACKENDS_PROBE_INTERVAL = os.environ.get('BACKENDS_PROBE_INTERVAL', "1s").strip()
@@ -36,7 +37,7 @@ init_conf_saint_backend = """
 """
 
 backend_conf = ""
-backend_conf_add = """
+backend_probe = """
 backend server_%(name)s_%(index)s {
     .host = "%(host)s";
     .port = "%(port)s";
@@ -49,6 +50,14 @@ backend server_%(name)s_%(index)s {
     }
 }
 """
+backend_no_probe = """
+backend server_%(name)s_%(index)s {
+    .host = "%(host)s";
+    .port = "%(port)s";
+}
+"""
+
+backend_conf_add = backend_probe if BACKENDS_PROBE_ENABLED else backend_no_probe
 
 recv_conf = """
 acl purge {
@@ -98,9 +107,7 @@ if sys.argv[1] == "dns":
                 ips[ip] = host
 
     with open('/etc/varnish/dns.backends', 'w') as bfile:
-        bfile.write(
-            ' '.join(sorted(ips))
-        )
+        bfile.write(' '.join(sorted(ips)))
 
     for ip, host in ips.items():
         name = toName(host)
@@ -241,6 +248,9 @@ elif sys.argv[1] == "hosts":
             )
 
         index += 1
+
+    with open('/etc/varnish/hosts.backends', 'w') as bfile:
+        bfile.write(' '.join(sorted(existing_hosts)))
 
     init_conf += "}"
     recv_conf = recv_conf % dict(director=director)

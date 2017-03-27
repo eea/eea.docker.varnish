@@ -1,14 +1,30 @@
-varnish:
-  image: eeacms/varnish
-  ports:
-  - "80:6081"
-  links:
-  - webapp
-  environment:
-  - BACKENDS_PROBE_INTERVAL=3s
-  - BACKENDS_PROBE_TIMEOUT=1s
-  - BACKENDS_PROBE_WINDOW=3
-  - BACKENDS_PROBE_THRESHOLD=2
-
-webapp:
-  image: eeacms/hello
+version: "2"
+services:
+  varnish:
+    image: eeacms/varnish
+    ports:
+    - "80:6081"
+    depends_on:
+    - anon
+    - auth
+    - download
+    environment:
+      BACKENDS: "anon auth download"
+      BACKENDS_PORT: "8080"
+      DNS_ENABLED: "true"
+      BACKENDS_PROBE_INTERVAL: "3s"
+      BACKENDS_PROBE_TIMEOUT: "1s"
+      BACKENDS_PROBE_WINDOW: "3"
+      BACKENDS_PROBE_THRESHOLD: "2"
+  anon:
+    image: eeacms/hello
+    environment:
+      PORT: "8080"
+  auth:
+    image: eeacms/hello
+    environment:
+      PORT: "8080"
+  download:
+    image: eeacms/hello
+    environment:
+      PORT: "8080"
