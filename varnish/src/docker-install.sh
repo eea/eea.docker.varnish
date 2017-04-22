@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-VARNISH_VERSION="4.1.3"
-VARNISH_FILENAME="varnish-4.1.3.tar.gz"
-VARNISH_SHA256="9f9469b9fda2a578da2a9d282c71c34eeb5c42eda7f8d8728284d92282108429"
+VARNISH_VERSION="4.1.5"
+VARNISH_FILENAME="varnish-4.1.5.tar.gz"
+VARNISH_SHA256="b52d4d05dd3c571c5538f2d821b237ec029691aebbc35918311ede256404feb3"
 
 buildDeps="
     automake
@@ -20,6 +20,7 @@ buildDeps="
     libvarnishapi-dev
     python3-dev
     python3-pip
+    libmhash-dev
 "
 
 runDeps="
@@ -33,6 +34,7 @@ runDeps="
     libvarnishapi1
     python3-dev
     python3-pip
+    libmhash2
 "
 
 echo "========================================================================="
@@ -72,10 +74,20 @@ echo "========================================================================="
 
 mkdir -p /etc/varnish/conf.d/ /usr/local/var/varnish /etc/chaperone.d
 chown -R varnish /etc/varnish /usr/local/var/varnish /etc/chaperone.d
-curl -o /tmp/varnish.tgz -SL https://download.varnish-software.com/varnish-modules/varnish-modules-0.9.0.tar.gz
+curl -o /tmp/varnish.tgz -SL https://download.varnish-software.com/varnish-modules/varnish-modules-0.11.0.tar.gz
 tar -zxvf /tmp/varnish.tgz -C /tmp/
 rm -rf /tmp/varnish.tgz
-cd /tmp/varnish-modules-0.9.0
+cd /tmp/varnish-modules-0.11.0
+./configure
+make
+make install
+ldconfig
+
+curl -o /tmp/libvmod-digest.tar.gz -SL https://github.com/varnish/libvmod-digest/archive/libvmod-digest-1.0.1.tar.gz
+tar -zxvf /tmp/libvmod-digest.tar.gz -C /tmp/
+rm -rf /tmp/libvmod-digest.tar.gz
+cd /tmp/libvmod-digest-libvmod-digest-1.0.1
+./autogen.sh
 ./configure
 make
 make install
