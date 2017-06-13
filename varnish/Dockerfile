@@ -6,5 +6,4 @@ RUN /tmp/docker-install.sh \
  && rm -rvf /tmp/*
 
 EXPOSE 6081
-ENTRYPOINT ["/usr/local/bin/chaperone"]
-CMD ["--user", "varnish"]
+CMD ["/usr/local/bin/chaperone", "--user", "varnish"]
