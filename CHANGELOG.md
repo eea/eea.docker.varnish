@@ -1,13 +1,23 @@
 # Changelog
 
 
-## 2017-03-27
+## 2017-03-27 (4.1-3.0)
 
-- Release stable and immutable version: 4.1-1.0
+- Release stable and immutable version: 4.1-3.0
+
+- Upgrade Varnish version: 4.1.5
+
+- Upgrade Varnish modules: 0.11.0
+
+- Add `vmod_digest`
+
+## 2017-03-27 (4.1-2.0)
+
+- Release stable and immutable version: 4.1-2.0
 
 - Possibility to disable backend probe via `BACKENDS_PROBE_ENABLED` env
 
-## 2017-02-22
+## 2017-02-22 (4.1-1.0)
 
 - Release stable and immutable version: 4.1-1.0
 
