@@ -93,7 +93,7 @@ elaborate base configuration in your container and you want it shipped with
 your image, you can extend the image in a Dockerfile, like this:
 
     FROM eeacms/varnish
-    COPY varnish.vcl backends.vcl /etc/varnish/conf.d/
+    COPY varnish.vcl /etc/varnish/conf.d/
 
 and then run
 
