@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-VARNISH_VERSION="4.1.5"
-VARNISH_FILENAME="varnish-4.1.5.tar.gz"
-VARNISH_SHA256="b52d4d05dd3c571c5538f2d821b237ec029691aebbc35918311ede256404feb3"
+VARNISH_VERSION="4.1.8"
+VARNISH_FILENAME="varnish-4.1.8.tgz"
+VARNISH_SHA256="908e7fbfa0325498717686b2050181134aa0a69d1495c02b2625cd34d35a4ff1"
 
 buildDeps="
     automake
@@ -56,7 +56,7 @@ echo "========================================================================="
 echo "Installing varnish"
 echo "========================================================================="
 
-curl -fSL "https://repo.varnish-cache.org/source/$VARNISH_FILENAME" -o "$VARNISH_FILENAME"
+curl -fSL "http://varnish-cache.org/_downloads/$VARNISH_FILENAME" -o "$VARNISH_FILENAME"
 echo "$VARNISH_SHA256 *$VARNISH_FILENAME" | sha256sum -c -
 mkdir -p /usr/local/src
 tar -xzf "$VARNISH_FILENAME" -C /usr/local/src
