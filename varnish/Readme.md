@@ -7,7 +7,7 @@ This image is generic, thus you can obviously re-use it within
 your non-related EEA projects.
 
  - Debian Jessie
- - Varnish **4.1.5**
+ - Varnish **4.1.8**
  - EXPOSE **6081**
 
 ## Supported tags and respective Dockerfile links
@@ -16,7 +16,7 @@ your non-related EEA projects.
 
 ### Stable and immutable tags
 
-  - `:4.1-3.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-3.0/varnish/Dockerfile) - Varnish: **4.1** Release: **3.0**
+  - `:4.1-3.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-3.1/varnish/Dockerfile) - Varnish: **4.1** Release: **3.1**
 
 See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 

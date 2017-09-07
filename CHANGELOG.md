@@ -1,5 +1,12 @@
 # Changelog
 
+## 2017-09-07 (4.1-3.1)
+
+- Release stable and immutable version: 4.1-3.1
+
+- Upgrade Varnish version: 4.1.8
+
+- Fix newlines on /etc/varnish/default.vcl on reload [chrodriguez - refs #11]
 
 ## 2017-03-27 (4.1-3.0)
 
