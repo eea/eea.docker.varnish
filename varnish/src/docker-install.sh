@@ -74,10 +74,10 @@ echo "========================================================================="
 
 mkdir -p /etc/varnish/conf.d/ /usr/local/var/varnish /etc/chaperone.d
 chown -R varnish /etc/varnish /usr/local/var/varnish /etc/chaperone.d
-curl -o /tmp/varnish.tgz -SL https://download.varnish-software.com/varnish-modules/varnish-modules-0.11.0.tar.gz
+curl -o /tmp/varnish.tgz -SL https://download.varnish-software.com/varnish-modules/varnish-modules-0.12.1.tar.gz
 tar -zxvf /tmp/varnish.tgz -C /tmp/
 rm -rf /tmp/varnish.tgz
-cd /tmp/varnish-modules-0.11.0
+cd /tmp/varnish-modules-0.12.1
 ./configure
 make
 make install
