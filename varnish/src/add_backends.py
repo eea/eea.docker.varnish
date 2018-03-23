@@ -15,6 +15,8 @@ BACKENDS_PROBE_INTERVAL = os.environ.get('BACKENDS_PROBE_INTERVAL', "1s").strip(
 BACKENDS_PROBE_WINDOW = os.environ.get('BACKENDS_PROBE_WINDOW', "3").strip()
 BACKENDS_PROBE_THRESHOLD = os.environ.get('BACKENDS_PROBE_THRESHOLD', "2").strip()
 BACKENDS_SAINT_MODE = os.environ.get("BACKENDS_SAINT_MODE", "").strip()
+BACKENDS_PROBE_REQUEST = os.environ.get('BACKENDS_PROBE_REQUEST', "").strip()
+BACKENDS_PROBE_REQUEST_DELIMITER = os.environ.get('BACKENDS_PROBE_DELIMITER', "|").strip()
 
 init_conf = """
 import std;
@@ -112,6 +114,14 @@ if sys.argv[1] == "dns":
     for ip, host in ips.items():
         name = toName(host)
         index = ip.replace('.', '_')
+
+        # replace probe .url with .request headers
+        if BACKENDS_PROBE_REQUEST:
+            hdrs = BACKENDS_PROBE_REQUEST.split(BACKENDS_PROBE_REQUEST_DELIMITER)
+            request = '.request = \r\n' + ''.join([ '\t\t"'+item+'"\r\n' for item in hdrs])
+            request = request[:-2] + ";"
+            backend_conf_add = backend_conf_add .replace(r'.url = "%(probe_url)s";', request)
+
         backend_conf += backend_conf_add % dict(
                 name=name,
                 index=index,
@@ -154,6 +164,14 @@ elif sys.argv[1] == "env":
         host_name_or_ip = host_split[0]
         host_port = host_split[1] if len(host_split) > 1 else BACKENDS_PORT
         name = toName(host_name_or_ip)
+
+        # replace probe .url with .request headers
+        if BACKENDS_PROBE_REQUEST:
+            hdrs = BACKENDS_PROBE_REQUEST.split(BACKENDS_PROBE_REQUEST_DELIMITER)
+            request = '.request = \r\n' + ''.join([ '\t\t"'+item+'"\r\n' for item in hdrs])
+            request = request[:-2] + ";"
+            backend_conf_add = backend_conf_add .replace(r'.url = "%(probe_url)s";', request)
+
         backend_conf += backend_conf_add % dict(
                 name=name,
                 index=index,
@@ -222,6 +240,14 @@ elif sys.argv[1] == "hosts":
 
         existing_hosts.add(host_ip)
         name = 'server'
+
+        # replace probe .url with .request headers
+        if BACKENDS_PROBE_REQUEST:
+            hdrs = BACKENDS_PROBE_REQUEST.split(BACKENDS_PROBE_REQUEST_DELIMITER)
+            request = '.request = \r\n' + ''.join([ '\t\t"'+item+'"\r\n' for item in hdrs])
+            request = request[:-2] + ";"
+            backend_conf_add = backend_conf_add .replace(r'.url = "%(probe_url)s";', request)
+                    
         backend_conf += backend_conf_add % dict(
             name=name,
             index=index,

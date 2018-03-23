@@ -1,5 +1,9 @@
 # Changelog
 
+## 2013-03-23
+
+- Add Probe .request header support
+
 ## 2017-09-07 (4.1-3.1)
 
 - Release stable and immutable version: 4.1-3.1
