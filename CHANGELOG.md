@@ -1,8 +1,10 @@
 # Changelog
 
-## 2013-03-23
+## 2013-03-23 (4.1-3.2)
 
 - Add Probe .request header support
+
+- Upgrade Varnish modules: to 0.12.1
 
 ## 2017-09-07 (4.1-3.1)
 

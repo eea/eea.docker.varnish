@@ -16,7 +16,7 @@ your non-related EEA projects.
 
 ### Stable and immutable tags
 
-  - `:4.1-3.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-3.1/varnish/Dockerfile) - Varnish: **4.1** Release: **3.1**
+  - `:4.1-3.2` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-3.2/varnish/Dockerfile) - Varnish: **4.1** Release: **3.2*
 
 See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 
@@ -102,16 +102,16 @@ and then run
 ### Support for specifying probe request headers
 
 Two environment variables support defining specific probe request headers.
-The primary warning / tricky part is around the delimiter used for separating 
+The primary warning / tricky part is around the delimiter used for separating
 the individual headers. Below is an example:
 
     BACKENDS_PROBE_REQUEST: 'GET / HTTP/1.1|Host: example.com|Connection: close|User-Agent: Varnish Health Probe'
     BACKENDS_PROBE_REQUEST_DELIMITER: '|'
 
 The above will result in the probe being specified using the probe.request attribute
-and will replace the default probe.url attribute completely. 
+and will replace the default probe.url attribute completely.
 The important point, of course, is that you need to pick an appropriate delimiter
-that is not contained within any headers that you wish to pass. 
+that is not contained within any headers that you wish to pass.
 
 ### Change and reload configuration without restarting the container
 
