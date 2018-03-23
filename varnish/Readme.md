@@ -99,6 +99,19 @@ and then run
 
     $ docker build -t varnish-custom /path/to/Dockerfile
 
+### Support for specifying probe request headers
+
+Two environment variables support defining specific probe request headers.
+The primary warning / tricky part is around the delimiter used for separating 
+the individual headers. Below is an example:
+
+    BACKENDS_PROBE_REQUEST: 'GET / HTTP/1.1|Host: example.com|Connection: close|User-Agent: Varnish Health Probe'
+    BACKENDS_PROBE_REQUEST_DELIMITER: '|'
+
+The above will result in the probe being specified using the probe.request attribute
+and will replace the default probe.url attribute completely. 
+The important point, of course, is that you need to pick an appropriate delimiter
+that is not contained within any headers that you wish to pass. 
 
 ### Change and reload configuration without restarting the container
 
@@ -145,6 +158,8 @@ The varnish daemon can be configured by modifying the following environment vari
 * `DNS_ENABLED` DNS lookup provided `BACKENDS`. Use this option when your backends are resolved by an internal/external DNS service (e.g. Rancher)
 * `DNS_TTL` DNS lookup backends every $DNS_TTL minutes. Default 1 minute.
 * `BACKENDS_SAINT_MODE` Register backends using [saintmode module](https://github.com/varnish/varnish-modules/blob/master/docs/saintmode.rst)
+* `BACKENDS_PROBE_REQUEST` Backend probe request header list (default empty)
+* `BACKENDS_PROBE_REQUEST_DELIMITER` Backend probe request headers delimiter (default `|`)
 
 ## Copyright and license
 
