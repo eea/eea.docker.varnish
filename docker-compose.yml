@@ -1,9 +1,10 @@
 version: "2"
 services:
   varnish:
-    image: eeacms/varnish
+    image: test
     ports:
     - "80:6081"
+    - "6085:6085"
     depends_on:
     - anon
     - auth
@@ -16,6 +17,8 @@ services:
       BACKENDS_PROBE_TIMEOUT: "1s"
       BACKENDS_PROBE_WINDOW: "3"
       BACKENDS_PROBE_THRESHOLD: "2"
+      DASHBOARD_USER: "admin"
+      DASHBOARD_PASSWORD: "admin"
   anon:
     image: eeacms/hello
     environment:
