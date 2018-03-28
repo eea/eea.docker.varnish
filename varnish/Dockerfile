@@ -13,3 +13,4 @@ HEALTHCHECK --interval=1m --timeout=3s \
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
+CMD ["varnish"]

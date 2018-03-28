@@ -100,5 +100,9 @@ chown -R varnish:varnish /usr/local/var/varnish
 
 varnish-agent -H /var/www/html/varnish-dashboard
 
-exec varnishd  -j unix,user=varnish  -F -f /etc/varnish/default.vcl ${PARAMS}
 
+if [[ $1 == "varnish" ]]; then
+   exec varnishd  -j unix,user=varnish  -F -f /etc/varnish/default.vcl ${PARAMS}
+else
+   exec "$@"
+fi
