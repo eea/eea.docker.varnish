@@ -4,6 +4,9 @@ set -e
 VARNISH_VERSION="4.1.8"
 VARNISH_FILENAME="varnish-4.1.8.tgz"
 VARNISH_SHA256="908e7fbfa0325498717686b2050181134aa0a69d1495c02b2625cd34d35a4ff1"
+VARNISH_AGENT_V="4.1.3"
+VARNISH_DASHBOARD_COMMIT="7626328b1812559786091bcf43864469d38a3f8a"
+
 
 buildDeps="
     automake
@@ -21,6 +24,9 @@ buildDeps="
     python3-dev
     python3-pip
     libmhash-dev
+    libmicrohttpd-dev
+    libcurl4-gnutls-dev
+    git
 "
 
 runDeps="
@@ -35,6 +41,10 @@ runDeps="
     python3-dev
     python3-pip
     libmhash2
+    libmicrohttpd-dev
+    libcurl4-gnutls-dev
+    rsyslog
+    cron
 "
 
 echo "========================================================================="
@@ -93,11 +103,31 @@ make
 make install
 ldconfig
 
+
+
 echo "========================================================================="
-echo "Installing chaperone"
+echo "Installing Varnish agent"
 echo "========================================================================="
 
-pip3 install chaperone
+curl -o /tmp/vagent2.tar.gz -SL https://github.com/varnish/vagent2/archive/${VARNISH_AGENT_V}.tar.gz
+tar -zxvf /tmp/vagent2.tar.gz  -C /tmp/
+rm -rf  /tmp/vagent2.tar.gz
+cd /tmp/vagent2-${VARNISH_AGENT_V}
+./autogen.sh
+./configure
+make
+make install
+ldconfig
+
+echo "========================================================================="
+echo "Installing Varnish dashboard"
+echo "========================================================================="
+
+mkdir -p /var/www/html
+cd /var/www/html
+git clone https://github.com/brandonwamboldt/varnish-dashboard.git
+cd varnish-dashboard
+git checkout ${VARNISH_DASHBOARD_COMMIT}
 
 
 echo "========================================================================="
@@ -114,6 +144,15 @@ apt-get install -y --no-install-recommends $runDeps
 
 
 echo "========================================================================="
+echo "Configuring crontab logging"
+echo "========================================================================="
+
+
+sed -i '/#cron./c\cron.*                          \/proc\/1\/fd\/1'  /etc/rsyslog.conf 
+sed -i 's/-\/var\/log\/syslog/\/proc\/1\/fd\/1/g' /etc/rsyslog.conf 
+
+
+echo "========================================================================="
 echo "Cleaning up cache..."
 echo "========================================================================="
 
@@ -125,11 +164,13 @@ echo "========================================================================="
 echo "Configuration scripts"
 echo "========================================================================="
 
-mv -v /tmp/chaperone.conf     /etc/chaperone.d/chaperone.conf
 mv -v /tmp/assemble_vcls.py   /assemble_vcls.py
 mv -v /tmp/add_backends.py    /add_backends.py
-mv -v /tmp/docker-setup.sh    /docker-setup.sh
+mv -v /tmp/docker-entrypoint.sh    /docker-entrypoint.sh
 mv -v /tmp/track_hosts.sh     /track_hosts
 mv -v /tmp/track_dns.sh       /track_dns
 mv -v /tmp/reload.sh          /usr/bin/reload
 mv -v /tmp/default.vcl        /etc/varnish/default.vcl
+mv -v /tmp/docker-healthcheck.sh /docker-healthcheck.sh
+
+

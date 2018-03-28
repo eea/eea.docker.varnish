@@ -8,7 +8,9 @@ your non-related EEA projects.
 
  - Debian Jessie
  - Varnish **4.1.8**
- - EXPOSE **6081**
+ - Varnish agent 2 **4.1.3**
+ - Varnish dashboard
+ - EXPOSE **6081 6085**
 
 ## Supported tags and respective Dockerfile links
 
@@ -50,6 +52,7 @@ Here is a basic example of a `docker-compose.yml` file using the `eeacms/varnish
         image: eeacms/varnish
         ports:
         - "80:6081"
+        - "6085:6085"
         depends_on:
         - anon
         - auth
@@ -62,6 +65,8 @@ Here is a basic example of a `docker-compose.yml` file using the `eeacms/varnish
           BACKENDS_PROBE_TIMEOUT: "1s"
           BACKENDS_PROBE_WINDOW: "3"
           BACKENDS_PROBE_THRESHOLD: "2"
+          DASHBOARD_USER: "admin"
+          DASHBOARD_PASSWORD: "admin"
       anon:
         image: eeacms/hello
         environment:
@@ -160,6 +165,8 @@ The varnish daemon can be configured by modifying the following environment vari
 * `BACKENDS_SAINT_MODE` Register backends using [saintmode module](https://github.com/varnish/varnish-modules/blob/master/docs/saintmode.rst)
 * `BACKENDS_PROBE_REQUEST` Backend probe request header list (default empty)
 * `BACKENDS_PROBE_REQUEST_DELIMITER` Backend probe request headers delimiter (default `|`)
+* `DASHBOARD_USER` User to access the varnish dashboard exposed on 6085, if empty - admin
+* `DASHBOARD_PASSWORD` Password for the user to access the varnish dashboard exposed on 6085, if empty - admin
 
 ## Copyright and license
 

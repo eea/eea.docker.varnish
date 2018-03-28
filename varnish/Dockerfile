@@ -5,5 +5,11 @@ COPY src/* /tmp/
 RUN /tmp/docker-install.sh \
  && rm -rvf /tmp/*
 
-EXPOSE 6081
-CMD ["/usr/local/bin/chaperone", "--user", "varnish"]
+EXPOSE 6081 6085
+
+
+HEALTHCHECK --interval=1m --timeout=3s \
+  CMD ["/docker-healthcheck.sh"]
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+

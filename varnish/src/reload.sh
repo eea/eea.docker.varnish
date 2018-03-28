@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /etc/environment
+
 # Make a copy of the existing configuration file
 cp /etc/varnish/default.vcl /etc/varnish/old_default.vcl
 python3 /assemble_vcls.py
