@@ -70,7 +70,7 @@ service cron restart
 
 
 #Add env variables for varnish
-echo "export PATH=$PATH"':$PATH' >> /etc/environment
+echo "export PATH=$PATH" >> /etc/environment
 if [ ! -z "$BACKENDS" ]; then echo "export BACKENDS=\"$BACKENDS\""  >> /etc/environment; fi
 if [ ! -z "$BACKENDS_PORT" ]; then echo "export BACKENDS_PORT=$BACKENDS_PORT" >> /etc/environment; fi
 if [ ! -z "$BACKENDS_PROBE_INTERVAL" ]; then echo "export BACKENDS_PROBE_INTERVAL=$BACKENDS_PROBE_INTERVAL" >> /etc/environment; fi
@@ -87,5 +87,5 @@ chown -R varnish:varnish /usr/local/var/varnish
 
 varnish-agent -H /var/www/html/varnish-dashboard
 
-varnishd  -j unix,user=varnish  -F -f /etc/varnish/default.vcl ${PARAMS}
+exec varnishd  -j unix,user=varnish  -F -f /etc/varnish/default.vcl ${PARAMS}
 
