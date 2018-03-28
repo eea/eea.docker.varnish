@@ -71,13 +71,26 @@ service cron restart
 
 #Add env variables for varnish
 echo "export PATH=$PATH" >> /etc/environment
-if [ ! -z "$BACKENDS" ]; then echo "export BACKENDS=\"$BACKENDS\""  >> /etc/environment; fi
+if [ ! -z "$ADDRESS_PORT" ]; then echo "export ADDRESS_PORT=$ADDRESS_PORT" >> /etc/environment; fi
+if [ ! -z "$ADMIN_PORT" ]; then echo "export ADMIN_PORT=$ADMIN_PORT" >> /etc/environment; fi
+if [ ! -z "$BACKENDS" ]; then echo "export BACKENDS=\"$BACKENDS\"" >> /etc/environment; fi
 if [ ! -z "$BACKENDS_PORT" ]; then echo "export BACKENDS_PORT=$BACKENDS_PORT" >> /etc/environment; fi
+if [ ! -z "$BACKENDS_PROBE_ENABLED" ]; then echo "export BACKENDS_PROBE_ENABLED=$BACKENDS_PROBE_ENABLED" >> /etc/environment; fi
 if [ ! -z "$BACKENDS_PROBE_INTERVAL" ]; then echo "export BACKENDS_PROBE_INTERVAL=$BACKENDS_PROBE_INTERVAL" >> /etc/environment; fi
-if [ ! -z "$BACKENDS_PROBE_TIMEOUT" ]; then echo "export BACKENDS_PROBE_TIMEOUT=$BACKENDS_PROBE_TIMEOUT" >> /etc/environment; fi
-if [ ! -z "$BACKENDS_PROBE_WINDOW" ]; then echo "export BACKENDS_PROBE_WINDOW=$BACKENDS_PROBE_WINDOW" >> /etc/environment; fi
+if [ ! -z "$BACKENDS_PROBE_REQUEST" ]; then echo "export BACKENDS_PROBE_REQUEST=$BACKENDS_PROBE_REQUEST" >> /etc/environment; fi
+if [ ! -z "$BACKENDS_PROBE_REQUEST_DELIMITER" ]; then echo "export BACKENDS_PROBE_REQUEST_DELIMITER=$BACKENDS_PROBE_REQUEST_DELIMITER" >> /etc/environment; fi
 if [ ! -z "$BACKENDS_PROBE_THRESHOLD" ]; then echo "export BACKENDS_PROBE_THRESHOLD=$BACKENDS_PROBE_THRESHOLD" >> /etc/environment; fi
+if [ ! -z "$BACKENDS_PROBE_TIMEOUT" ]; then echo "export BACKENDS_PROBE_TIMEOUT=$BACKENDS_PROBE_TIMEOUT" >> /etc/environment; fi
+if [ ! -z "$BACKENDS_PROBE_URL" ]; then echo "export BACKENDS_PROBE_URL=$BACKENDS_PROBE_URL" >> /etc/environment; fi
+if [ ! -z "$BACKENDS_PROBE_WINDOW" ]; then echo "export BACKENDS_PROBE_WINDOW=$BACKENDS_PROBE_WINDOW" >> /etc/environment; fi
+if [ ! -z "$BACKENDS_SAINT_MODE" ]; then echo "export BACKENDS_SAINT_MODE=$BACKENDS_SAINT_MODE" >> /etc/environment; fi
+if [ ! -z "$CACHE_SIZE" ]; then echo "export CACHE_SIZE=$CACHE_SIZE" >> /etc/environment; fi
+if [ ! -z "$CACHE_STORAGE" ]; then echo "export CACHE_STORAGE=$CACHE_STORAGE" >> /etc/environment; fi
 if [ ! -z "$DNS_ENABLED" ]; then echo "export DNS_ENABLED=$DNS_ENABLED" >> /etc/environment; fi
+if [ ! -z "$DNS_TTL" ]; then echo "export DNS_TTL=$DNS_TTL" >> /etc/environment; fi
+if [ ! -z "$PARAM_VALUE" ]; then echo "export PARAM_VALUE=$PARAM_VALUE" >> /etc/environment; fi
+if [ ! -z "$PRIVILEDGED_USER" ]; then echo "export PRIVILEDGED_USER=$PRIVILEDGED_USER" >> /etc/environment; fi
+
 
 mkdir -p /usr/local/etc/varnish
 echo "${DASHBOARD_USER:-admin}:${DASHBOARD_PASSWORD:-admin}" > /usr/local/etc/varnish/agent_secret
