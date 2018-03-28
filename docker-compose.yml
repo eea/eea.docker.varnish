@@ -1,7 +1,7 @@
 version: "2"
 services:
   varnish:
-    image: test
+    image: eeacms/varnish 
     ports:
     - "80:6081"
     - "6085:6085"

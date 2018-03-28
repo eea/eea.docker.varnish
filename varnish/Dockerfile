@@ -9,7 +9,7 @@ EXPOSE 6081 6085
 
 
 HEALTHCHECK --interval=1m --timeout=3s \
-  CMD ( curl -sI http://localhost:6085 | grep -i "HTTP/1.1 401 Unauthorized" ) || exit 1
+  CMD ["/docker-healthcheck.sh"]
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 

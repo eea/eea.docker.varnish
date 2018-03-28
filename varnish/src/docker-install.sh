@@ -171,6 +171,6 @@ mv -v /tmp/track_hosts.sh     /track_hosts
 mv -v /tmp/track_dns.sh       /track_dns
 mv -v /tmp/reload.sh          /usr/bin/reload
 mv -v /tmp/default.vcl        /etc/varnish/default.vcl
-
+mv -v /tmp/docker-healthcheck.sh /docker-healthcheck.sh
 
 
