@@ -1,8 +1,8 @@
 # Changelog
 
-## 2018-03-28 (4.1-3.3)
+## 2018-03-28 (4.1-4.0)
 
-- Remove chaperone, add cron and rsync
+- Remove chaperone, add cron and rsync for logging
 - Add varnish agent 2  -  4.1.3  https://github.com/varnish/vagent2
 - Add Varnish Dashboard https://github.com/brandonwamboldt/varnish-dashboard
 
