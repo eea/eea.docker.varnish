@@ -39,5 +39,5 @@ sub vcl_recv {
 """
 
 cookie_conf_add = cookie_conf.replace(r'%(white_cookies)', COOKIES_WHITELIST)
-with open("/etc/varnish/conf.d/cookie_config.vcl", "w") as cookie_conf:
-    cookie_conf.write(cookie_conf_add)
+with open("/etc/varnish/conf.d/cookie_config.vcl", "w") as cookie_file:
+    cookie_file.write(cookie_conf_add)
