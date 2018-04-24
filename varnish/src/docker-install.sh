@@ -172,5 +172,6 @@ mv -v /tmp/track_dns.sh       /track_dns
 mv -v /tmp/reload.sh          /usr/bin/reload
 mv -v /tmp/default.vcl        /etc/varnish/default.vcl
 mv -v /tmp/docker-healthcheck.sh /docker-healthcheck.sh
+mv -v /tmp/cookie_config.py     /cookie_config.py
 
 

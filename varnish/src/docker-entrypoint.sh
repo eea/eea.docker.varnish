@@ -25,7 +25,9 @@ _VALUE="${PARAM_VALUE}"
 
 PARAMS="${_USER} ${_STORAGE} ${_ADDRESS} ${_ADMIN} ${_VALUE}"
 
-
+if [ ! -z "$COOKIES" ]; then
+  python3 /cookie_config.py 
+fi
 
 if [ ! -z "$DNS_ENABLED" ]; then
 
@@ -90,6 +92,8 @@ if [ ! -z "$DNS_ENABLED" ]; then echo "export DNS_ENABLED=$DNS_ENABLED" >> /etc/
 if [ ! -z "$DNS_TTL" ]; then echo "export DNS_TTL=$DNS_TTL" >> /etc/environment; fi
 if [ ! -z "$PARAM_VALUE" ]; then echo "export PARAM_VALUE=$PARAM_VALUE" >> /etc/environment; fi
 if [ ! -z "$PRIVILEDGED_USER" ]; then echo "export PRIVILEDGED_USER=$PRIVILEDGED_USER" >> /etc/environment; fi
+if [ ! -z "$COOKIES" ]; then echo "export COOKIES=$COOKIES" >> /etc/environment; fi
+if [ ! -z "$COOKIES_WHITELIST" ]; then echo "export COOKIES_WHITELIST=$COOKIES_WHITELIST" >> /etc/environment; fi
 
 
 mkdir -p /usr/local/etc/varnish
