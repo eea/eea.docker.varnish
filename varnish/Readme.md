@@ -140,8 +140,8 @@ enabled with the COOKIES environment variable. If set, additional code
 is executed that builds a cookie_config.vcl file containing additions to
 the generated default.vcl file. The following cookie options are currently supported.
 
-	1. Whitelist of cookies - Allows stripping all but a small list of cookies
-	2. (Future) Remove cookies for listed static file types, so caching works
+1. Whitelist of cookies - Allows stripping all but a small list of cookies
+2. (Future) Remove cookies for listed static file types, so caching works
 
 #### Whitelist of cookies
 With this option you provide a regular expression describing those cookies that should
