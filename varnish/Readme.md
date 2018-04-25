@@ -133,6 +133,24 @@ fails, the varnish daemon will continue to use the old configuration.
 Keep in mind that the only way to restore a previous configuration is to
 restore the configuration files and then reload them.
 
+### Support for stripping cookies for better caching
+By default, if any cookies are present, the cache is bypassed. This section describes
+new support for configuration of various cookie-based cache options. Configuration is
+enabled with the COOKIES environment variable. If set, additional code
+is executed that builds a cookie_config.vcl file containing additions to
+the generated default.vcl file. The following cookie options are currently supported.
+
+	1. Whitelist of cookies - Allows stripping all but a small list of cookies
+	2. (Future) Remove cookies for listed static file types, so caching works
+
+#### Whitelist of cookies
+With this option you provide a regular expression describing those cookies that should
+be passed through to the backend. All cookies not described by the expression will be 
+stripped from the headers. Here is an example.
+```
+COOKIES=true
+COOKIES_WHITELIST=(SESS[a-z0-9]+|SSESS[a-z0-9]+|NO_CACHE)
+```
 
 ### Upgrade
 
@@ -167,6 +185,8 @@ The varnish daemon can be configured by modifying the following environment vari
 * `BACKENDS_PROBE_REQUEST_DELIMITER` Backend probe request headers delimiter (default `|`)
 * `DASHBOARD_USER` User to access the varnish dashboard exposed on 6085, if empty - admin
 * `DASHBOARD_PASSWORD` Password for the user to access the varnish dashboard exposed on 6085, if empty - admin
+* `COOKIES` Enables cookie configuration
+* `COOKIES_WHITELIST` A regular expression describing cookies that are passed through, all others are stripped
 
 ## Copyright and license
 

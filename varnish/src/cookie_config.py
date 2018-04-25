@@ -1,6 +1,6 @@
 import os
 
-COOKIES_WHITELIST = os.environ.get('COOKIES_WHITELIST', '').strip()
+COOKIES_WHITELIST = os.environ.get('COOKIES_WHITELIST', '(NO_CACHE)').strip()
 
 cookie_conf = """
 sub vcl_recv {
