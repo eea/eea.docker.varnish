@@ -18,7 +18,7 @@ your non-related EEA projects.
 
 ### Stable and immutable tags
 
-  - `:4.1-4.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-3.2/varnish/Dockerfile) - Varnish: **4.1** Release: **3.2*
+  - `:4.1-5.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-5.0/varnish/Dockerfile) - Varnish: **4.1** Release: **5.0*
 
 See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 
@@ -145,7 +145,7 @@ the generated default.vcl file. The following cookie options are currently suppo
 
 #### Whitelist of cookies
 With this option you provide a regular expression describing those cookies that should
-be passed through to the backend. All cookies not described by the expression will be 
+be passed through to the backend. All cookies not described by the expression will be
 stripped from the headers. Here is an example.
 ```
 COOKIES=true

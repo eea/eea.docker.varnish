@@ -1,5 +1,9 @@
 # Changelog
 
+## 2018-04-26 (4.1-5.0)
+
+- Add cookie configuration support via `COOKIES` and `COOKIES_WHITELIST` environment variables [twajr refs #19]
+
 ## 2018-03-28 (4.1-4.0)
 
 - Remove chaperone, add cron and rsync for logging
