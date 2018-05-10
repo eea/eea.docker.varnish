@@ -126,6 +126,7 @@ if sys.argv[1] == "dns":
                 name=name,
                 index=index,
                 host=ip,
+                hostname=host,
                 port=port,
                 probe_url=BACKENDS_PROBE_URL,
                 probe_timeout=BACKENDS_PROBE_TIMEOUT,
@@ -176,6 +177,7 @@ elif sys.argv[1] == "env":
                 name=name,
                 index=index,
                 host=host_name_or_ip,
+                hostanme=host_name_or_ip,
                 port=host_port,
                 probe_url=BACKENDS_PROBE_URL,
                 probe_timeout=BACKENDS_PROBE_TIMEOUT,
@@ -235,6 +237,7 @@ elif sys.argv[1] == "hosts":
             continue
 
         host_ip = host.split()[0]
+        host_name = host.split()[1]
         if host_ip in existing_hosts:
             continue
 
@@ -252,6 +255,7 @@ elif sys.argv[1] == "hosts":
             name=name,
             index=index,
             host=host_ip,
+            hostname=host_name,
             port=BACKENDS_PORT,
             probe_url=BACKENDS_PROBE_URL,
             probe_timeout=BACKENDS_PROBE_TIMEOUT,
