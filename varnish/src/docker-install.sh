@@ -158,20 +158,3 @@ echo "========================================================================="
 
 apt-get clean
 rm -rf /var/lib/apt/lists/*
-
-
-echo "========================================================================="
-echo "Configuration scripts"
-echo "========================================================================="
-
-mv -v /tmp/assemble_vcls.py   /assemble_vcls.py
-mv -v /tmp/add_backends.py    /add_backends.py
-mv -v /tmp/docker-entrypoint.sh    /docker-entrypoint.sh
-mv -v /tmp/track_hosts.sh     /track_hosts
-mv -v /tmp/track_dns.sh       /track_dns
-mv -v /tmp/reload.sh          /usr/bin/reload
-mv -v /tmp/default.vcl        /etc/varnish/default.vcl
-mv -v /tmp/docker-healthcheck.sh /docker-healthcheck.sh
-mv -v /tmp/cookie_config.py     /cookie_config.py
-
-
