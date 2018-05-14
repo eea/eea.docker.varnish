@@ -18,7 +18,7 @@ your non-related EEA projects.
 
 ### Stable and immutable tags
 
-  - `:4.1-5.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-5.0/varnish/Dockerfile) - Varnish: **4.1** Release: **5.0*
+  - `:4.1-5.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-5.1/varnish/Dockerfile) - Varnish: **4.1** Release: **5.1*
 
 See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 
