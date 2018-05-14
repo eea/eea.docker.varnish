@@ -118,6 +118,11 @@ and will replace the default probe.url attribute completely.
 The important point, of course, is that you need to pick an appropriate delimiter
 that is not contained within any headers that you wish to pass.
 
+The hostname of the current backend being probed can be specify using the `%(hostname)s` placeholder:
+
+    BACKENDS_PROBE_REQUEST: 'GET / HTTP/1.1|Host: %(hostname)s|Connection: close|User-Agent: Varnish Health Probe'
+    BACKENDS_PROBE_REQUEST_DELIMITER: '|'
+
 ### Change and reload configuration without restarting the container
 
 If the configuration directory is mounted as a volume, you can modify
