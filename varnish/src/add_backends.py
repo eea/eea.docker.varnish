@@ -250,7 +250,7 @@ elif sys.argv[1] == "hosts":
             request = '.request = \r\n' + ''.join([ '\t\t"'+item+'"\r\n' for item in hdrs])
             request = request[:-2] + ";"
             backend_conf_add = backend_conf_add .replace(r'.url = "%(probe_url)s";', request)
-                    
+
         backend_conf += backend_conf_add % dict(
             name=name,
             index=index,

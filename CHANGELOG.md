@@ -1,5 +1,9 @@
 # Changelog
 
+## 2018-05-15 (4.1-5.2)
+
+- Add varnish scale support within varnish dashboard via `DASHBOARD_SERVERS` environment variable [avoinea refs #94528]
+
 ## 2018-05-14 (4.1-5.1)
 
 - Probe request with hostname [thomasleveil refs #22]

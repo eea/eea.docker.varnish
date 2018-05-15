@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-
 # Priviledge separation user id
 _USER="${PRIVILEDGED_USER:+-u ${PRIVILEDGED_USER}}"
 
@@ -26,7 +24,11 @@ _VALUE="${PARAM_VALUE}"
 PARAMS="${_USER} ${_STORAGE} ${_ADDRESS} ${_ADMIN} ${_VALUE}"
 
 if [ ! -z "$COOKIES" ]; then
-  python3 /cookie_config.py 
+  python3 /cookie_config.py
+fi
+
+if [ ! -z "$DASHBOARD_SERVERS" ]; then
+  python3 /dashboard_config.py
 fi
 
 if [ ! -z "$DNS_ENABLED" ]; then
@@ -44,8 +46,8 @@ else
      # Backend provided via $BACKENDS env
      python3 /add_backends.py env
      python3 /assemble_vcls.py
- 
-  else 
+
+  else
 
       if test "$(ls -A /etc/varnish/conf.d/)"; then
           # Backend vcl files directly added to /etc/varnish/conf.d/
@@ -94,6 +96,9 @@ if [ ! -z "$PARAM_VALUE" ]; then echo "export PARAM_VALUE=$PARAM_VALUE" >> /etc/
 if [ ! -z "$PRIVILEDGED_USER" ]; then echo "export PRIVILEDGED_USER=$PRIVILEDGED_USER" >> /etc/environment; fi
 if [ ! -z "$COOKIES" ]; then echo "export COOKIES=$COOKIES" >> /etc/environment; fi
 if [ ! -z "$COOKIES_WHITELIST" ]; then echo "export COOKIES_WHITELIST=$COOKIES_WHITELIST" >> /etc/environment; fi
+if [ ! -z "DASHBOARD_USER" ]; then echo "export DASHBOARD_USER=$DASHBOARD_USER" >> /etc/environment; fi
+if [ ! -z "DASHBOARD_PASSWORD" ]; then echo "export DASHBOARD_PASSWORD=$DASHBOARD_PASSWORD" >> /etc/environment; fi
+if [ ! -z "DASHBOARD_SERVERS" ]; then echo "export DASHBOARD_SERVERS=$DASHBOARD_SERVERS" >> /etc/environment; fi
 
 
 mkdir -p /usr/local/etc/varnish

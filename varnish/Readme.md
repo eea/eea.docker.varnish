@@ -18,7 +18,7 @@ your non-related EEA projects.
 
 ### Stable and immutable tags
 
-  - `:4.1-5.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-5.1/varnish/Dockerfile) - Varnish: **4.1** Release: **5.1*
+  - `:4.1-5.2` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-5.2/varnish/Dockerfile) - Varnish: **4.1** Release: **5.2
 
 See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 
@@ -65,6 +65,7 @@ Here is a basic example of a `docker-compose.yml` file using the `eeacms/varnish
           BACKENDS_PROBE_TIMEOUT: "1s"
           BACKENDS_PROBE_WINDOW: "3"
           BACKENDS_PROBE_THRESHOLD: "2"
+          DASHBOARD_SERVERS: "varnish"
           DASHBOARD_USER: "admin"
           DASHBOARD_PASSWORD: "admin"
       anon:
@@ -84,7 +85,7 @@ Here is a basic example of a `docker-compose.yml` file using the `eeacms/varnish
 The application can be scaled to use more server instances as backends, with `docker-compose scale`:
 
     $ docker-compose up -d
-    $ docker-compose scale anon=4 auth=2
+    $ docker-compose scale anon=4 auth=2 varnish=2
 
 An example of a more complex application using the `eeacms/varnish` with `docker-compose`
 image is [EEA WWW](https://github.com/eea/eea.docker.www).
@@ -188,6 +189,7 @@ The varnish daemon can be configured by modifying the following environment vari
 * `BACKENDS_SAINT_MODE` Register backends using [saintmode module](https://github.com/varnish/varnish-modules/blob/master/docs/saintmode.rst)
 * `BACKENDS_PROBE_REQUEST` Backend probe request header list (default empty)
 * `BACKENDS_PROBE_REQUEST_DELIMITER` Backend probe request headers delimiter (default `|`)
+* `DASHBOARD_SERVERS` Include varnish services, space separated, within varnish dashboard. Useful when you want to scale varnish and see them all within varnish dashboard (e.g.: `DASHBOARD_SERVERS=varnish` and `docker-compose scale varnish=2`)
 * `DASHBOARD_USER` User to access the varnish dashboard exposed on 6085, if empty - admin
 * `DASHBOARD_PASSWORD` Password for the user to access the varnish dashboard exposed on 6085, if empty - admin
 * `COOKIES` Enables cookie configuration
