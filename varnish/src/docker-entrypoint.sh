@@ -98,7 +98,7 @@ if [ ! -z "$COOKIES" ]; then echo "export COOKIES=$COOKIES" >> /etc/environment;
 if [ ! -z "$COOKIES_WHITELIST" ]; then echo "export COOKIES_WHITELIST=$COOKIES_WHITELIST" >> /etc/environment; fi
 if [ ! -z "DASHBOARD_USER" ]; then echo "export DASHBOARD_USER=$DASHBOARD_USER" >> /etc/environment; fi
 if [ ! -z "DASHBOARD_PASSWORD" ]; then echo "export DASHBOARD_PASSWORD=$DASHBOARD_PASSWORD" >> /etc/environment; fi
-if [ ! -z "DASHBOARD_SERVERS" ]; then echo "export DASHBOARD_SERVERS=$DASHBOARD_SERVERS" >> /etc/environment; fi
+if [ ! -z "DASHBOARD_SERVERS" ]; then echo "export DASHBOARD_SERVERS=\"$DASHBOARD_SERVERS\"" >> /etc/environment; fi
 
 
 mkdir -p /usr/local/etc/varnish
@@ -106,9 +106,7 @@ echo "${DASHBOARD_USER:-admin}:${DASHBOARD_PASSWORD:-admin}" > /usr/local/etc/va
 chown -R varnish:varnish /usr/local/etc/varnish
 chown -R varnish:varnish /usr/local/var/varnish
 
-
 varnish-agent -H /var/www/html/varnish-dashboard
-
 
 if [[ $1 == "varnish" ]]; then
    exec varnishd  -j unix,user=varnish  -F -f /etc/varnish/default.vcl ${PARAMS}
