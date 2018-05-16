@@ -5,7 +5,7 @@ VARNISH_VERSION="4.1.8"
 VARNISH_FILENAME="varnish-4.1.8.tgz"
 VARNISH_SHA256="908e7fbfa0325498717686b2050181134aa0a69d1495c02b2625cd34d35a4ff1"
 VARNISH_AGENT_V="4.1.3"
-VARNISH_DASHBOARD_COMMIT="7626328b1812559786091bcf43864469d38a3f8a"
+VARNISH_DASHBOARD_COMMIT="e2cc1c854941c9fac18bdfedba2819fa766a5549"
 
 
 buildDeps="
@@ -148,8 +148,8 @@ echo "Configuring crontab logging"
 echo "========================================================================="
 
 
-sed -i '/#cron./c\cron.*                          \/proc\/1\/fd\/1'  /etc/rsyslog.conf 
-sed -i 's/-\/var\/log\/syslog/\/proc\/1\/fd\/1/g' /etc/rsyslog.conf 
+sed -i '/#cron./c\cron.*                          \/proc\/1\/fd\/1'  /etc/rsyslog.conf
+sed -i 's/-\/var\/log\/syslog/\/proc\/1\/fd\/1/g' /etc/rsyslog.conf
 
 
 echo "========================================================================="
