@@ -20,7 +20,7 @@ var config = {
 """
 
 SERVER = """{
-    name: "varnish-%(DASHBOARD_SERVER)s",
+    name: "%(DASHBOARD_SERVER)s",
     host: "%(DASHBOARD_SERVER)s",
     port: %(DASHBOARD_PORT)s,
     user: "%(DASHBOARD_USER)s",
