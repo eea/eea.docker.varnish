@@ -1,5 +1,14 @@
 # Changelog
 
+## 2018-05-16 (4.1-6.0)
+
+- Fix HTTPS support for single mode dashboard behind Apache, HAProxy or Nginx [avoinea refs #94528]
+- Add possibility to start Varnish dashboard on different port via `DASHBOARD_PORT` environment variable [avoinea refs #94528]
+- Now `DASHBOARD_SERVERS` needs `DASHBOARD_DNS_ENABLED=true` in order to discover multiple instances of the same service.
+  This way you'll be able to provide direct ips or hostnames to external varnish servers.
+  Also you'll be able to provide varnish agents behind Apache/HAProxy like: `varnish-1.example.com:443 varnish-2.example.com:443`
+  [avoinea refs #94528]
+
 ## 2018-05-15 (4.1-5.2)
 
 - Add varnish scale support within varnish dashboard via `DASHBOARD_SERVERS` environment variable [avoinea refs #94528]

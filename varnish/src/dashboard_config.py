@@ -1,5 +1,4 @@
 import os
-import socket
 import subprocess
 
 CONFIG_JS = """
@@ -32,9 +31,19 @@ DASHBOARD_USER = os.environ.get("DASHBOARD_USER", "admin")
 DASHBOARD_PASSWORD = os.environ.get("DASHBOARD_PASSWORD", "admin")
 DASHBOARD_SERVERS = os.environ.get("DASHBOARD_SERVERS", "")
 DASHBOARD_PORT = os.environ.get("DASHBOARD_PORT", "6085")
+DASHBOARD_DNS_ENABLED = os.environ.get("DASHBOARD_DNS_ENABLED", "").lower() in ("true", "yes", "on")
 
-ips = set()
+ips = {}
 for server in DASHBOARD_SERVERS.split():
+    if ":" in server:
+        server, port = server.split(":")
+    else:
+        port = DASHBOARD_PORT
+
+    if not DASHBOARD_DNS_ENABLED:
+        ips[server] = port
+        continue
+
     try:
         records = subprocess.check_output(["getent", "hosts", server])
     except Exception as err:
@@ -43,22 +52,19 @@ for server in DASHBOARD_SERVERS.split():
     else:
         for record in records.splitlines():
             ip = record.split()[0].decode()
-            ips.add(ip)
+            ips[ip] = port
 
-if not ips:
-    ips.add(socket.gethostbyname(socket.gethostname()))
+if ips:
+    SERVERS = set()
+    for ip, port in ips.items():
+        SERVERS.add(SERVER % dict(
+            DASHBOARD_SERVER=ip,
+            DASHBOARD_PORT=port,
+            DASHBOARD_USER=DASHBOARD_USER,
+            DASHBOARD_PASSWORD=DASHBOARD_PASSWORD
+        ))
 
-SERVERS = set()
-for ip in ips:
-    SERVERS.add(SERVER % dict(
-        DASHBOARD_SERVER=ip,
-        DASHBOARD_PORT=DASHBOARD_PORT,
-        DASHBOARD_USER=DASHBOARD_USER,
-        DASHBOARD_PASSWORD=DASHBOARD_PASSWORD
-    ))
-
-with open("/var/www/html/varnish-dashboard/config.js", "w") as cfile:
-    cfile.write(CONFIG_JS % dict(
-        SERVERS=", ".join(SERVERS)
-    ))
-
+    with open("/var/www/html/varnish-dashboard/config.js", "w") as cfile:
+        cfile.write(CONFIG_JS % dict(
+            SERVERS=", ".join(SERVERS)
+        ))

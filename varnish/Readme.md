@@ -18,7 +18,7 @@ your non-related EEA projects.
 
 ### Stable and immutable tags
 
-  - `:4.1-5.2` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-5.2/varnish/Dockerfile) - Varnish: **4.1** Release: **5.2
+  - `:4.1-6.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-6.0/varnish/Dockerfile) - Varnish: **4.1** Release: **6.0
 
 See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 
@@ -65,9 +65,10 @@ Here is a basic example of a `docker-compose.yml` file using the `eeacms/varnish
           BACKENDS_PROBE_TIMEOUT: "1s"
           BACKENDS_PROBE_WINDOW: "3"
           BACKENDS_PROBE_THRESHOLD: "2"
-          DASHBOARD_SERVERS: "varnish"
           DASHBOARD_USER: "admin"
           DASHBOARD_PASSWORD: "admin"
+          DASHBOARD_SERVERS: "varnish"
+          DASHBOARD_DNS_ENABLED: "true"
       anon:
         image: eeacms/hello
         environment:
@@ -190,8 +191,10 @@ The varnish daemon can be configured by modifying the following environment vari
 * `BACKENDS_PROBE_REQUEST` Backend probe request header list (default empty)
 * `BACKENDS_PROBE_REQUEST_DELIMITER` Backend probe request headers delimiter (default `|`)
 * `DASHBOARD_SERVERS` Include varnish services, space separated, within varnish dashboard. Useful when you want to scale varnish and see them all within varnish dashboard (e.g.: `DASHBOARD_SERVERS=varnish` and `docker-compose scale varnish=2`)
-* `DASHBOARD_USER` User to access the varnish dashboard exposed on 6085, if empty - admin
-* `DASHBOARD_PASSWORD` Password for the user to access the varnish dashboard exposed on 6085, if empty - admin
+* `DASHBOARD_DNS_ENABLED` Convert `DASHBOARD_SERVERS` to ips in order to discover multiple varnish instances. (default `false`)
+* `DASHBOARD_PORT` Run Varnish dashboard on this port inside container (default `6085`)
+* `DASHBOARD_USER` User to access the varnish dashboard exposed on `DASHBOARD_PORT` (default `admin`)
+* `DASHBOARD_PASSWORD` Password for the user to access the varnish dashboard exposed on `DASHBOARD_PORT`. (default `admin`)
 * `COOKIES` Enables cookie configuration
 * `COOKIES_WHITELIST` A regular expression describing cookies that are passed through, all others are stripped
 
