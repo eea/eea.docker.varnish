@@ -1,5 +1,9 @@
 # Changelog
 
+## 2018-06-06 (6.0-1.0)
+
+- Upgrade to Varnish 6.0.0
+
 ## 2018-06-06 (5.2-1.0)
 
 - Upgrade to Varnish 5.2.1
