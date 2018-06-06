@@ -1,5 +1,9 @@
 # Changelog
 
+## 2018-06-06 (5.2-1.0)
+
+- Upgrade to Varnish 5.2.1
+
 ## 2018-06-06 (4.1-6.1)
 
 - Upgrade to Varnish 4.1.10 [avoinea refs #95891]
