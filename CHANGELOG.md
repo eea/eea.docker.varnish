@@ -1,5 +1,9 @@
 # Changelog
 
+## 2018-06-06 (4.1-6.1)
+
+- Upgrade to Varnish 4.1.10 [avoinea refs #95891]
+
 ## 2018-05-16 (4.1-6.0)
 
 - Fix HTTPS support for single mode dashboard behind Apache, HAProxy or Nginx [avoinea refs #94528]
