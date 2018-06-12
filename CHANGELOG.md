@@ -1,5 +1,9 @@
 # Changelog
 
+## 2018-06-12 (4.1-6.2)
+
+- Fix docker-healthcheck [olafbuitelaar refs #23]
+
 ## 2018-06-06 (4.1-6.1)
 
 - Upgrade to Varnish 4.1.10 [avoinea refs #95891]
