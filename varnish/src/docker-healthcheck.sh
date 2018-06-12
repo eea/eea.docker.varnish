@@ -7,7 +7,7 @@ PASS=${DASHBOARD_PASSWORD:-"admin"}
 PORT=${DASHBOARD_PORT:-"6085"}
 
 
-health=$(curl -s -u$USER:$PASS "http://localhost:$DASHBOARD_PORT/status")
+health=$(curl -s -u$USER:$PASS "http://localhost:$PORT/status")
 
 health=${health:-"Dashboard down"}
 
