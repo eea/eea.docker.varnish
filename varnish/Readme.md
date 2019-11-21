@@ -7,8 +7,8 @@ This image is generic, thus you can obviously re-use it within
 your non-related EEA projects.
 
  - Debian Jessie
- - Varnish **4.1.8**
- - Varnish agent 2 **4.1.3**
+ - Varnish **4.1.11**
+ - Varnish agent 2 **4.1.4**
  - Varnish dashboard
  - EXPOSE **6081 6085**
 
@@ -18,7 +18,7 @@ your non-related EEA projects.
 
 ### Stable and immutable tags
 
-  - `:4.1-6.2` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-6.2/varnish/Dockerfile) - Varnish: **4.1** Release: **6.2
+  - `:4.1-6.3` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-6.3/varnish/Dockerfile) - Varnish: **4.1.11** Release: **6.3
 
 See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 

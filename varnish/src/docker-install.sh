@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 
-VARNISH_VERSION="4.1.10"
-VARNISH_FILENAME="varnish-4.1.10.tgz"
-VARNISH_SHA256="364833fbf6fb7540ddd54b62b5ac52b2fb00e915049c8446d71d334323e87c22"
-VARNISH_AGENT_V="4.1.3"
+VARNISH_VERSION="4.1.11"
+VARNISH_FILENAME="varnish-4.1.11.tgz"
+VARNISH_SHA256="f937a45116f3a7fbb38b2b5d7137658a4846409630bb9eccdbbb240e1a1379bc"
+VARNISH_AGENT_V="4.1.4"
 VARNISH_DASHBOARD_COMMIT="e2cc1c854941c9fac18bdfedba2819fa766a5549"
 
 
@@ -66,7 +66,7 @@ echo "========================================================================="
 echo "Installing varnish"
 echo "========================================================================="
 
-curl -fSL "http://varnish-cache.org/_downloads/$VARNISH_FILENAME" -o "$VARNISH_FILENAME"
+curl -fSL "https://varnish-cache.org/_downloads/$VARNISH_FILENAME" -o "$VARNISH_FILENAME"
 echo "$VARNISH_SHA256 *$VARNISH_FILENAME" | sha256sum -c -
 mkdir -p /usr/local/src
 tar -xzf "$VARNISH_FILENAME" -C /usr/local/src
@@ -84,19 +84,19 @@ echo "========================================================================="
 
 mkdir -p /etc/varnish/conf.d/ /usr/local/var/varnish /etc/chaperone.d
 chown -R varnish /etc/varnish /usr/local/var/varnish /etc/chaperone.d
-curl -o /tmp/varnish.tgz -SL https://download.varnish-software.com/varnish-modules/varnish-modules-0.12.1.tar.gz
+curl -o /tmp/varnish.tgz -SL https://download.varnish-software.com/varnish-modules/varnish-modules-0.15.0.tar.gz
 tar -zxvf /tmp/varnish.tgz -C /tmp/
 rm -rf /tmp/varnish.tgz
-cd /tmp/varnish-modules-0.12.1
+cd /tmp/varnish-modules-0.15.0
 ./configure
 make
 make install
 ldconfig
 
-curl -o /tmp/libvmod-digest.tar.gz -SL https://github.com/varnish/libvmod-digest/archive/libvmod-digest-1.0.1.tar.gz
+curl -o /tmp/libvmod-digest.tar.gz -SL https://github.com/varnish/libvmod-digest/archive/libvmod-digest-1.0.2.tar.gz
 tar -zxvf /tmp/libvmod-digest.tar.gz -C /tmp/
 rm -rf /tmp/libvmod-digest.tar.gz
-cd /tmp/libvmod-digest-libvmod-digest-1.0.1
+cd /tmp/libvmod-digest-libvmod-digest-1.0.2
 ./autogen.sh
 ./configure
 make
