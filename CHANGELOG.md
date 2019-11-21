@@ -3,6 +3,7 @@
 ## 2019-11-21 (4.1-6.3)
 
 - Upgrade Varnish 4.1.1, Varnish agent 4.1.4, Varnish modules 0.15.0, libvmod-digest 1.0.2
+- Upgrade to Debian:stretch-slim
 
 ## 2018-06-12 (4.1-6.2)
 
