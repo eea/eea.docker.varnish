@@ -6,7 +6,7 @@ and reload.
 This image is generic, thus you can obviously re-use it within
 your non-related EEA projects.
 
- - Debian Jessie
+ - Debian Stretch
  - Varnish **4.1.11**
  - Varnish agent 2 **4.1.4**
  - Varnish dashboard
