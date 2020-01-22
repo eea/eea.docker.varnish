@@ -1,5 +1,10 @@
 # Changelog
 
+## 2020-01-22 (4.1-6.4)
+
+- Add `AUTOKILL_CRON` variable
+
+
 ## 2019-11-21 (4.1-6.3)
 
 - Upgrade Varnish 4.1.1, Varnish agent 4.1.4, Varnish modules 0.15.0, libvmod-digest 1.0.2
