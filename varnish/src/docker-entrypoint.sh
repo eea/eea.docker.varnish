@@ -61,6 +61,11 @@ else
    fi
 fi
 
+if [ -n "$AUTOKILL_CRON" ]; then
+    
+     echo "$AUTOKILL_CRON /stop_varnish_cache.sh  | logger " >> /var/crontab.txt	
+
+fi
 
 
 #enable cron logging
@@ -92,7 +97,7 @@ if [ ! -z "$CACHE_SIZE" ]; then echo "export CACHE_SIZE=$CACHE_SIZE" >> /etc/env
 if [ ! -z "$CACHE_STORAGE" ]; then echo "export CACHE_STORAGE=$CACHE_STORAGE" >> /etc/environment; fi
 if [ ! -z "$DNS_ENABLED" ]; then echo "export DNS_ENABLED=$DNS_ENABLED" >> /etc/environment; fi
 if [ ! -z "$DNS_TTL" ]; then echo "export DNS_TTL=$DNS_TTL" >> /etc/environment; fi
-if [ ! -z "$PARAM_VALUE" ]; then echo "export PARAM_VALUE=$PARAM_VALUE" >> /etc/environment; fi
+if [ ! -z "$PARAM_VALUE" ]; then echo "export PARAM_VALUE='$PARAM_VALUE'" >> /etc/environment; fi
 if [ ! -z "$PRIVILEDGED_USER" ]; then echo "export PRIVILEDGED_USER=$PRIVILEDGED_USER" >> /etc/environment; fi
 if [ ! -z "$COOKIES" ]; then echo "export COOKIES=$COOKIES" >> /etc/environment; fi
 if [ ! -z "$COOKIES_WHITELIST" ]; then echo "export COOKIES_WHITELIST=$COOKIES_WHITELIST" >> /etc/environment; fi
