@@ -197,6 +197,8 @@ The varnish daemon can be configured by modifying the following environment vari
 * `DASHBOARD_PASSWORD` Password for the user to access the varnish dashboard exposed on `DASHBOARD_PORT`. (default `admin`)
 * `COOKIES` Enables cookie configuration
 * `COOKIES_WHITELIST` A regular expression describing cookies that are passed through, all others are stripped
+* `AUTOKILL_CRON` Has to be used with healtchecks enabled on varnish ports, it will kill the varnish cache process ( which exposes the ports ) keeping the container running, uses Linux Crontab format `[Minute] [hour] [Day_of_the_Month] [Month_of_the_Year] [Day_of_the_Week]`, UTC time
+
 
 ## Copyright and license
 
