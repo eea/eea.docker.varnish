@@ -17,6 +17,8 @@ BACKENDS_PROBE_THRESHOLD = os.environ.get('BACKENDS_PROBE_THRESHOLD', "2").strip
 BACKENDS_SAINT_MODE = os.environ.get("BACKENDS_SAINT_MODE", "").strip()
 BACKENDS_PROBE_REQUEST = os.environ.get('BACKENDS_PROBE_REQUEST', "").strip()
 BACKENDS_PROBE_REQUEST_DELIMITER = os.environ.get('BACKENDS_PROBE_DELIMITER', "|").strip()
+BACKENDS_PURGE_LIST = os.environ.get('BACKENDS_PURGE_LIST',"localhost;172.17.0.0/16;10.42.0.0/16").strip()
+
 
 init_conf = """
 import std;
@@ -61,23 +63,22 @@ backend server_%(name)s_%(index)s {
 
 backend_conf_add = backend_probe if BACKENDS_PROBE_ENABLED else backend_no_probe
 
-recv_conf = """
-acl purge {
-    "localhost";
-    "172.17.0.0/16";
-    "10.42.0.0/16";
-}
+backend_purge_ips = ''.join([ '\t"'+item.strip('"').strip("'")+'";\r\n' for item in BACKENDS_PURGE_LIST.strip(';').split(';')])
 
-sub vcl_recv {
-  if (req.method == "PURGE") {
-    if (!client.ip ~ purge) {
+recv_conf = f"""
+acl purge {{
+{backend_purge_ips}}}
+
+sub vcl_recv {{
+  if (req.method == "PURGE") {{
+    if (!client.ip ~ purge) {{
         return(synth(405, "Not allowed."));
-    }
+    }}
     return (purge);
-  }
+  }}
 
   set req.backend_hint = cluster_%(director)s.backend();
-}
+}}
 """
 
 def toName(text):
