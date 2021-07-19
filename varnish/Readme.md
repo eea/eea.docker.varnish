@@ -190,6 +190,7 @@ The varnish daemon can be configured by modifying the following environment vari
 * `BACKENDS_SAINT_MODE` Register backends using [saintmode module](https://github.com/varnish/varnish-modules/blob/master/docs/saintmode.rst)
 * `BACKENDS_PROBE_REQUEST` Backend probe request header list (default empty)
 * `BACKENDS_PROBE_REQUEST_DELIMITER` Backend probe request headers delimiter (default `|`)
+* `BACKENDS_PURGE_LIST` Backend ip/ip range ';' separated list to use in the purge acl, defaults to `localhost;172.17.0.0/16;10.42.0.0/16`
 * `DASHBOARD_SERVERS` Include varnish services, space separated, within varnish dashboard. Useful when you want to scale varnish and see them all within varnish dashboard (e.g.: `DASHBOARD_SERVERS=varnish` and `docker-compose scale varnish=2`)
 * `DASHBOARD_DNS_ENABLED` Convert `DASHBOARD_SERVERS` to ips in order to discover multiple varnish instances. (default `false`)
 * `DASHBOARD_PORT` Run Varnish dashboard on this port inside container (default `6085`)
