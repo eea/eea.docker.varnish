@@ -63,22 +63,22 @@ backend server_%(name)s_%(index)s {
 
 backend_conf_add = backend_probe if BACKENDS_PROBE_ENABLED else backend_no_probe
 
-backend_purge_ips = ''.join([ '\t"'+item.strip('"').strip("'")+'";\r\n' for item in BACKENDS_PURGE_LIST.strip(';').split(';')])
+backend_purge_ips = ''.join([ '    "'+item.strip('"').strip("'")+'";\r\n' for item in BACKENDS_PURGE_LIST.strip(';').split(';')])
 
-recv_conf = f"""
-acl purge {{
-{backend_purge_ips}}}
+recv_conf = """
+acl purge {
+""" + backend_purge_ips + """}
 
-sub vcl_recv {{
-  if (req.method == "PURGE") {{
-    if (!client.ip ~ purge) {{
+sub vcl_recv {
+  if (req.method == "PURGE") {
+    if (!client.ip ~ purge) {
         return(synth(405, "Not allowed."));
-    }}
+    }
     return (purge);
-  }}
+  }
 
   set req.backend_hint = cluster_%(director)s.backend();
-}}
+}
 """
 
 def toName(text):
