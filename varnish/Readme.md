@@ -14,11 +14,12 @@ your non-related EEA projects.
 
 ## Supported tags and respective Dockerfile links
 
-  - `:latest` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/master/varnish/Dockerfile) (Debian Jessie, Varnish 4.1)
+  - `:latest` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/master/varnish/Dockerfile) (Debian Stretch, Varnish 4.1)
 
 ### Stable and immutable tags
 
-  - `:4.1-6.4` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-6.3/varnish/Dockerfile) - Varnish: **4.1.11** Release: **6.4
+  - `:4.1-6.4` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-6.4/varnish/Dockerfile) - Varnish: **4.1.11** Release: **6.4
+  - `:4.1-6.5` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-6.5/varnish/Dockerfile) - Varnish: **4.1.11** Release: **6.5
 
 See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 
