@@ -1,9 +1,13 @@
 # Changelog
 
+## 2020-07-27 (4.1-6.5)
+
+- Add `BACKENDS_PURGE_LIST` variable #18
+- Restrict name to 40 characters #24
+
 ## 2020-01-22 (4.1-6.4)
 
 - Add `AUTOKILL_CRON` variable
-
 
 ## 2019-11-21 (4.1-6.3)
 
