@@ -104,7 +104,7 @@ if sys.argv[1] == "dns":
             print(err)
             continue
         else:
-            init_conf += init_conf_director % dict(director=toName(host))
+            init_conf += init_conf_director % dict(director=toName(host)[-40:])
             for record in records.splitlines():
                 ip = record.split()[0].decode()
                 ips[ip] = host
@@ -113,7 +113,7 @@ if sys.argv[1] == "dns":
         bfile.write(' '.join(sorted(ips)))
 
     for ip, host in ips.items():
-        name = toName(host)
+        name = toName(host)[-40:]
         index = ip.replace('.', '_')
 
         # replace probe .url with .request headers
@@ -165,7 +165,7 @@ elif sys.argv[1] == "env":
         host_split = host.split(":")
         host_name_or_ip = host_split[0]
         host_port = host_split[1] if len(host_split) > 1 else BACKENDS_PORT
-        name = toName(host_name_or_ip)
+        name = toName(host_name_or_ip)[-40:]
 
         # replace probe .url with .request headers
         if BACKENDS_PROBE_REQUEST:
