@@ -137,6 +137,11 @@ sub vcl_recv {
         return(hash);
     }
 
+    ## scale
+    if (req.method == "GET" && req.url ~ "(icon|tile|thumb|mini|preview|teaser|large|larger|great|huge|small|medium|big|tiny)$") {
+        return(hash);
+    }
+
     ## for some urls or request we can do a pass here (no caching) ?
     if (req.method == "GET" && (req.url ~ "aq_parent" || req.url ~ "manage$" || req.url ~ "manage_workspace$" || req.url ~ "manage_main$" || req.url ~ "@@rdf")) {
         return(pass);
@@ -281,19 +286,19 @@ sub vcl_backend_response {
     } elsif (beresp.http.Cache-Control ~ "private") {
         set beresp.http.X-Cacheable = "NO - Cache-Control=private";
         set beresp.uncacheable = true;
-        set beresp.ttl = 120s;
+        set beresp.ttl = 60s;
     } elsif (beresp.http.Surrogate-control ~ "no-store") {
         set beresp.http.X-Cacheable = "NO - Surrogate-control=no-store";
         set beresp.uncacheable = true;
-        set beresp.ttl = 120s;
+        set beresp.ttl = 60s;
     } elsif (!beresp.http.Surrogate-Control && beresp.http.Cache-Control ~ "no-cache|no-store") {
         set beresp.http.X-Cacheable = "NO - Cache-Control=no-cache|no-store";
         set beresp.uncacheable = true;
-        set beresp.ttl = 120s;
+        set beresp.ttl = 60s;
     } elsif (beresp.http.Vary == "*") {
         set beresp.http.X-Cacheable = "NO - Vary=*";
         set beresp.uncacheable = true;
-        set beresp.ttl = 120s;
+        set beresp.ttl = 60s;
 
     # ttl handling
     } elsif (beresp.ttl < 0s) {
@@ -325,7 +330,8 @@ sub vcl_backend_response {
         return(deliver);
     }
 
-    set beresp.grace = 600s;
+    set beresp.grace = 120s;
+    set beresp.keep = 120s;
     return (deliver);
 
 }
