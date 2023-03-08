@@ -34,6 +34,10 @@ if [ -n "$AUTOKILL_CRON" ]; then
 
 fi
 
+if [ -n "$VARNISH_TTL" ] || [ -n "$VARNISH_GRACE" ] || [ -n "${VARNISH_KEEP}" ]; then
+    /update_timetokeep.sh
+fi
+
 exec /usr/local/bin/docker-varnish-entrypoint "$@"
 
 
