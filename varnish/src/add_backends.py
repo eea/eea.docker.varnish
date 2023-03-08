@@ -8,7 +8,7 @@ import subprocess
 ################################################################################
 BACKENDS = os.environ.get('BACKENDS', '').split(' ')
 BACKENDS_PORT = os.environ.get('BACKENDS_PORT', "80").strip()
-BACKENDS_PROBE_ENABLED = os.environ.get('BACKENDS_PROBE_ENABLED', "True").strip().lower() in ("true", "yes", "1")
+BACKENDS_PROBE_ENABLED = os.environ.get('BACKENDS_PROBE_ENABLED', "False").strip().lower() in ("true", "yes", "1")
 BACKENDS_PROBE_URL = os.environ.get('BACKENDS_PROBE_URL', "/").strip()
 BACKENDS_PROBE_TIMEOUT = os.environ.get('BACKENDS_PROBE_TIMEOUT', "1s").strip()
 BACKENDS_PROBE_INTERVAL = os.environ.get('BACKENDS_PROBE_INTERVAL', "1s").strip()
