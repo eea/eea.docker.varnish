@@ -171,12 +171,9 @@ As varnish has close to no purpose by itself, this image should be used
 in combination with others with [Docker Compose](https://docs.docker.com/compose/).
 The varnish daemon can be configured by modifying the following environment variables:
 
-* `PRIVILEDGED_USER` Priviledge separation user id (e.g. `varnish`)
 * `CACHE_SIZE` Size of the RAM cache storage (default `2G`)
-* `CACHE_STORAGE` Override default RAM cache (e.g. `file,/var/lib/varnish/varnish_storage.bin,1G`)
 * `ADDRESS_PORT` HTTP listen address and port (default `:6081`)
 * `ADMIN_PORT` HTTP admin address and port (e.g. `:6082`)
-* `PARAM_VALUE` A list of parameter-value pairs, each preceeded by the `-p` flag
 * `BACKENDS` A list of `host[:port]` pairs separated by space
   (e.g. `BACKENDS="127.0.0.1 74.125.140.103:8080"`)
 * `BACKENDS_PORT` Default port to be used for backends (defalut `80`)
@@ -186,21 +183,15 @@ The varnish daemon can be configured by modifying the following environment vari
 * `BACKENDS_PROBE_INTERVAL` Backend probe interval (defalut `1s`)
 * `BACKENDS_PROBE_WINDOW` Backend probe window (defalut `3`)
 * `BACKENDS_PROBE_THRESHOLD` Backend probe threshold (defalut `2`)
-* `DNS_ENABLED` DNS lookup provided `BACKENDS`. Use this option when your backends are resolved by an internal/external DNS service (e.g. Rancher)
-* `DNS_TTL` DNS lookup backends every $DNS_TTL minutes. Default 1 minute.
 * `BACKENDS_SAINT_MODE` Register backends using [saintmode module](https://github.com/varnish/varnish-modules/blob/master/docs/saintmode.rst)
 * `BACKENDS_PROBE_REQUEST` Backend probe request header list (default empty)
 * `BACKENDS_PROBE_REQUEST_DELIMITER` Backend probe request headers delimiter (default `|`)
 * `BACKENDS_PURGE_LIST` Backend ip/ip range ';' separated list to use in the purge acl, defaults to `localhost;172.17.0.0/16;10.42.0.0/16`
-* `DASHBOARD_SERVERS` Include varnish services, space separated, within varnish dashboard. Useful when you want to scale varnish and see them all within varnish dashboard (e.g.: `DASHBOARD_SERVERS=varnish` and `docker-compose scale varnish=2`)
-* `DASHBOARD_DNS_ENABLED` Convert `DASHBOARD_SERVERS` to ips in order to discover multiple varnish instances. (default `false`)
-* `DASHBOARD_PORT` Run Varnish dashboard on this port inside container (default `6085`)
-* `DASHBOARD_USER` User to access the varnish dashboard exposed on `DASHBOARD_PORT` (default `admin`)
-* `DASHBOARD_PASSWORD` Password for the user to access the varnish dashboard exposed on `DASHBOARD_PORT`. (default `admin`)
 * `COOKIES` Enables cookie configuration
 * `COOKIES_WHITELIST` A regular expression describing cookies that are passed through, all others are stripped
 * `AUTOKILL_CRON` Has to be used with healtchecks enabled on varnish ports, it will kill the varnish cache process ( which exposes the ports ) keeping the container running, uses Linux Crontab format `[Minute] [hour] [Day_of_the_Month] [Month_of_the_Year] [Day_of_the_Week]`, UTC time
-
+* `VARNISH_SINGLE_CLUSTER`
+* `VARNISH_CLUSTER`
 
 ## Copyright and license
 

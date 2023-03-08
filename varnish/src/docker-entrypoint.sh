@@ -4,6 +4,8 @@
 VARNISH_HTTP_PORT=${VARNISH_HTTP_PORT:-6081}
 VARNISH_SIZE="${VARNISH_SIZE:-$CACHE_SIZE}"
 
+VARNISH_SINGLE_CLUSTER="${VARNISH_SINGLE_CLUSTER:-'True'}"
+
 mkdir -p /etc/varnish/conf.d
 
 if [ -n "$COOKIES" ]; then
@@ -20,11 +22,6 @@ else
       if test "$(ls -A /etc/varnish/conf.d/)"; then
           # Backend vcl files directly added to /etc/varnish/conf.d/
           python3 /assemble_vcls.py
-      else
-         # Find backend within /etc/hosts
-         touch /etc/varnish/hosts.backends
-         python3 /add_backends.py hosts
-         python3 /assemble_vcls.py
       fi
 fi
 

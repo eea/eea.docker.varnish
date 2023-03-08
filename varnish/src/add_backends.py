@@ -19,6 +19,10 @@ BACKENDS_PROBE_REQUEST = os.environ.get('BACKENDS_PROBE_REQUEST', "").strip()
 BACKENDS_PROBE_REQUEST_DELIMITER = os.environ.get('BACKENDS_PROBE_DELIMITER', "|").strip()
 BACKENDS_PURGE_LIST = os.environ.get('BACKENDS_PURGE_LIST',"localhost;172.17.0.0/16;10.42.0.0/16").strip()
 
+VARNISH_SINGLE_CLUSTER = os.environ.get('VARNISH_SINGLE_CLUSTER', "True").strip().lower() in ("true", "yes", "1")
+VARNISH_CLUSTER = os.environ.get('VARNISH_CLUSTER', "loadbalancer").strip()
+
+
 
 init_conf = """
 import std;
@@ -87,78 +91,13 @@ def toName(text):
 
 FOUND_BACKENDS = False
 
-################################################################################
-# Backends are resolved using internal or external DNS service
-################################################################################
-
-if sys.argv[1] == "dns":
-    ips = {}
-    name = "backends"
-    for index, backend_server in enumerate(BACKENDS):
-        server_port = backend_server.split(':')
-        host = server_port[0]
-        port = server_port[1] if len(server_port) > 1 else BACKENDS_PORT
-        try:
-            records = subprocess.check_output(["getent", "hosts", host])
-        except Exception as err:
-            print(err)
-            continue
-        else:
-            init_conf += init_conf_director % dict(director=toName(host)[-40:])
-            for record in records.splitlines():
-                ip = record.split()[0].decode()
-                ips[ip] = host
-
-    with open('/etc/varnish/dns.backends', 'w') as bfile:
-        bfile.write(' '.join(sorted(ips)))
-
-    for ip, host in ips.items():
-        name = toName(host)[-40:]
-        index = ip.replace('.', '_')
-
-        # replace probe .url with .request headers
-        if BACKENDS_PROBE_REQUEST:
-            hdrs = BACKENDS_PROBE_REQUEST.split(BACKENDS_PROBE_REQUEST_DELIMITER)
-            request = '.request = \r\n' + ''.join([ '\t\t"'+item+'"\r\n' for item in hdrs])
-            request = request[:-2] + ";"
-            backend_conf_add = backend_conf_add .replace(r'.url = "%(probe_url)s";', request)
-
-        backend_conf += backend_conf_add % dict(
-                name=name,
-                index=index,
-                host=ip,
-                hostname=host,
-                port=port,
-                probe_url=BACKENDS_PROBE_URL,
-                probe_timeout=BACKENDS_PROBE_TIMEOUT,
-                probe_interval=BACKENDS_PROBE_INTERVAL,
-                probe_window=BACKENDS_PROBE_WINDOW,
-                probe_threshold=BACKENDS_PROBE_THRESHOLD
-            )
-
-        if BACKENDS_SAINT_MODE:
-            init_conf += init_conf_saint_backend % dict(
-                director=name,
-                name=name,
-                index=index
-            )
-        else:
-            init_conf += init_conf_backend % dict(
-                director=name,
-                name=name,
-                index=index
-            )
-        FOUND_BACKENDS = True
-
-    init_conf += "}"
-    recv_conf = recv_conf % dict(director=name)
 
 
 ################################################################################
 # Backends provided via BACKENDS environment variable
 ################################################################################
 
-elif sys.argv[1] == "env":
+if sys.argv[1] == "env":
     name = "backends"
     directors = set()
     for index, host in enumerate(BACKENDS):
@@ -166,7 +105,6 @@ elif sys.argv[1] == "env":
         host_name_or_ip = host_split[0]
         host_port = host_split[1] if len(host_split) > 1 else BACKENDS_PORT
         name = toName(host_name_or_ip)[-40:]
-
         # replace probe .url with .request headers
         if BACKENDS_PROBE_REQUEST:
             hdrs = BACKENDS_PROBE_REQUEST.split(BACKENDS_PROBE_REQUEST_DELIMITER)
@@ -186,108 +124,31 @@ elif sys.argv[1] == "env":
                 probe_window=BACKENDS_PROBE_WINDOW,
                 probe_threshold=BACKENDS_PROBE_THRESHOLD
         )
+        if VARNISH_SINGLE_CLUSTER:
+            director_name = VARNISH_CLUSTER
+        else:
+            director_name = name
 
-        if name not in directors:
-            directors.add(name)
-            init_conf += init_conf_director % dict(director=name)
+        if director_name not in directors:
+            directors.add(director_name)
+            init_conf += init_conf_director % dict(director=director_name)
 
         if BACKENDS_SAINT_MODE:
             init_conf += init_conf_saint_backend % dict(
-                director=name,
+                director=director_name,
                 name=name,
                 index=index
             )
         else:
             init_conf += init_conf_backend % dict(
-                director=name,
+                director=director_name,
                 name=name,
                 index=index
             )
         FOUND_BACKENDS = True
 
     init_conf += "}"
-    recv_conf = recv_conf % dict(director=name)
-
-################################################################################
-# Look for backend within /etc/hosts
-################################################################################
-
-
-elif sys.argv[1] == "hosts":
-    director = "backends"
-    try:
-        hosts = open("/etc/hosts")
-    except:
-        exit
-
-    localhost = socket.gethostbyname(socket.gethostname())
-    existing_hosts = set()
-
-    init_conf += init_conf_director % dict(director=director)
-    index = 1
-    for host in hosts:
-        if "#" in host:
-            continue
-        if "0.0.0.0" in host:
-            continue
-        if "127.0.0.1" in host:
-            continue
-        if localhost in host:
-            continue
-        if "::" in host:
-            continue
-
-        host_ip = host.split()[0]
-        host_name = host.split()[1]
-        if host_ip in existing_hosts:
-            continue
-
-        existing_hosts.add(host_ip)
-        name = 'server'
-
-        # replace probe .url with .request headers
-        if BACKENDS_PROBE_REQUEST:
-            hdrs = BACKENDS_PROBE_REQUEST.split(BACKENDS_PROBE_REQUEST_DELIMITER)
-            request = '.request = \r\n' + ''.join([ '\t\t"'+item+'"\r\n' for item in hdrs])
-            request = request[:-2] + ";"
-            backend_conf_add = backend_conf_add .replace(r'.url = "%(probe_url)s";', request)
-
-        backend_conf += backend_conf_add % dict(
-            name=name,
-            index=index,
-            host=host_ip,
-            hostname=host_name,
-            port=BACKENDS_PORT,
-            probe_url=BACKENDS_PROBE_URL,
-            probe_timeout=BACKENDS_PROBE_TIMEOUT,
-            probe_interval=BACKENDS_PROBE_INTERVAL,
-            probe_window=BACKENDS_PROBE_WINDOW,
-            probe_threshold=BACKENDS_PROBE_THRESHOLD
-        )
-
-        if BACKENDS_SAINT_MODE:
-            init_conf += init_conf_saint_backend % dict(
-                director=director,
-                name=name,
-                index=index
-            )
-        else:
-            init_conf += init_conf_backend % dict(
-                director=director,
-                name=name,
-                index=index
-            )
-
-        index += 1
-
-    with open('/etc/varnish/hosts.backends', 'w') as bfile:
-        bfile.write(' '.join(sorted(existing_hosts)))
-
-    init_conf += "}"
-    recv_conf = recv_conf % dict(director=director)
-
-    if existing_hosts:
-        FOUND_BACKENDS = True
+    recv_conf = recv_conf % dict(director=director_name)
 
 
 if FOUND_BACKENDS:
