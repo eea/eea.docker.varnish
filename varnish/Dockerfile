@@ -1,18 +1,22 @@
-FROM debian:stretch-slim
+FROM varnish:7.2-alpine
+
 MAINTAINER "EEA: IDM2 A-Team" <eea-edw-a-team-alerts@googlegroups.com>
 
-COPY src/docker-install.sh /tmp/docker-install.sh
-RUN /tmp/docker-install.sh \
- && rm -rvf /tmp/*
 
-COPY src/*.py src/track* src/*.sh  /
-COPY src/reload                    /usr/bin/reload
-COPY src/default.vcl               /etc/varnish/default.vcl
+COPY src/*.py src/*.sh  /
 
-EXPOSE 6081 6085
+EXPOSE 6081 
+
+USER root
+
+RUN mkdir -p /etc/varnish/conf.d \ 
+ && chown -R varnish:varnish /etc/varnish \
+ && apk add --no-cache python3 \
+ && touch /var/crontab.txt
 
 HEALTHCHECK --interval=1m --timeout=3s \
   CMD ["/docker-healthcheck.sh"]
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["varnish"]
+
+CMD ["-p", "default_ttl=3600", "-p", "default_grace=3600"]

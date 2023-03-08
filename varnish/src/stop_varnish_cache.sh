@@ -1,5 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
-source /etc/environment
 
 varnishadm stop
