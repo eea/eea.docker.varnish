@@ -4,26 +4,6 @@
 VARNISH_HTTP_PORT=${VARNISH_HTTP_PORT:-6081}
 VARNISH_SIZE="${VARNISH_SIZE:-$CACHE_SIZE}"
 
-VARNISH_SINGLE_CLUSTER="${VARNISH_SINGLE_CLUSTER:-'True'}"
-
-mkdir -p /etc/varnish/conf.d
-
-if [ -n "$COOKIES" ]; then
-  python3 /cookie_config.py
-fi
-
-if [ -n "$BACKENDS" ]; then
-     # Backend provided via $BACKENDS env
-     python3 /add_backends.py env
-     python3 /assemble_vcls.py
-
-else
-
-      if test "$(ls -A /etc/varnish/conf.d/)"; then
-          # Backend vcl files directly added to /etc/varnish/conf.d/
-          python3 /assemble_vcls.py
-      fi
-fi
 
 if [ -n "$AUTOKILL_CRON" ]; then
     
@@ -34,8 +14,8 @@ if [ -n "$AUTOKILL_CRON" ]; then
 
 fi
 
-if [ -n "$VARNISH_TTL" ] || [ -n "$VARNISH_GRACE" ] || [ -n "${VARNISH_KEEP}" ]; then
-    /update_timetokeep.sh
+if [ $(env | grep -v ^VARNISH_HTTP_PORT | grep -v ^VARNISH_SIZE | grep ^VARNISH_ | wc -l ) -gt 0 ]; then
+    /update_vcl_from_env.sh
 fi
 
 exec /usr/local/bin/docker-varnish-entrypoint "$@"

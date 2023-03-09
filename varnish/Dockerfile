@@ -3,14 +3,11 @@ FROM varnish:7.2-alpine
 MAINTAINER "EEA: IDM2 A-Team" <eea-edw-a-team-alerts@googlegroups.com>
 
 
-COPY src/*.py src/*.sh  /
-
-EXPOSE 6081 
+COPY src/*.sh  /
 
 USER root
 
-RUN mkdir -p /etc/varnish/conf.d \ 
- && chown -R varnish:varnish /etc/varnish \
+RUN chown -R varnish:varnish /etc/varnish \
  && apk add --no-cache python3 \
  && touch /var/crontab.txt
 
