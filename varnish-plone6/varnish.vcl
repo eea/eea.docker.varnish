@@ -4,7 +4,7 @@ import dynamic;
 
 sub vcl_init {
 
-  new cluster = dynamic.director(port = "VARNISH_BACKEND_PORT", ttl = VARNISH_DNS_TTL);
+  new cluster = dynamic.director(port = "<VARNISH_BACKEND_PORT>", ttl = <VARNISH_DNS_TTL>);
 
 }
 
@@ -23,7 +23,7 @@ acl purge {
 
 sub vcl_recv {
 
-    set req.backend_hint = cluster.backend("VARNISH_BACKEND");
+    set req.backend_hint = cluster.backend("<VARNISH_BACKEND>");
     set req.http.X-Varnish-Routed = "1";
 
 
@@ -295,19 +295,19 @@ sub vcl_backend_response {
     } elsif (beresp.http.Cache-Control ~ "private") {
         set beresp.http.X-Cacheable = "NO - Cache-Control=private";
         set beresp.uncacheable = true;
-        set beresp.ttl = VARNISH_BERESP_TTL;
+        set beresp.ttl = <VARNISH_BERESP_TTL>;
     } elsif (beresp.http.Surrogate-control ~ "no-store") {
         set beresp.http.X-Cacheable = "NO - Surrogate-control=no-store";
         set beresp.uncacheable = true;
-        set beresp.ttl = VARNISH_BERESP_TTL;
+        set beresp.ttl = <VARNISH_BERESP_TTL>;
     } elsif (!beresp.http.Surrogate-Control && beresp.http.Cache-Control ~ "no-cache|no-store") {
         set beresp.http.X-Cacheable = "NO - Cache-Control=no-cache|no-store";
         set beresp.uncacheable = true;
-        set beresp.ttl = VARNISH_BERESP_TTL;
+        set beresp.ttl = <VARNISH_BERESP_TTL>;
     } elsif (beresp.http.Vary == "*") {
         set beresp.http.X-Cacheable = "NO - Vary=*";
         set beresp.uncacheable = true;
-        set beresp.ttl = VARNISH_BERESP_TTL;
+        set beresp.ttl = <VARNISH_BERESP_TTL>;
 
     # ttl handling
     } elsif (beresp.ttl < 0s) {
@@ -339,8 +339,8 @@ sub vcl_backend_response {
         return(deliver);
     }
 
-    set beresp.ttl = VARNISH_BERESP_GRACE;
-    set beresp.ttl = VARNISH_BERESP_KEEP;
+    set beresp.ttl = <VARNISH_BERESP_GRACE>;
+    set beresp.ttl = <VARNISH_BERESP_KEEP>;
     return (deliver);
 
 }
