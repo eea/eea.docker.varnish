@@ -14,13 +14,15 @@ if [ -n "$AUTOKILL_CRON" ]; then
 
 fi
 
+if [ -n "$VARNISH_CFG_CONTENT" ]; then
+    echo -e "$VARNISH_CFG_CONTENT" > /etc/varnish/default.vcl
+    unset VARNISH_CFG_CONTENT
+fi
+
+
 if [ $(env | grep -v ^VARNISH_HTTP_PORT | grep -v ^VARNISH_SIZE | grep ^VARNISH_ | wc -l ) -gt 0 ]; then
     /update_vcl_from_env.sh
 fi
-
-if [ -n "$VARNISH_CFG_CONTENT" ]; then
-    echo -e "$VARNISH_CFG_CONTENT" > /etc/varnish/default.vcl
-fi    
 
 exec /usr/local/bin/docker-varnish-entrypoint "$@"
 
