@@ -1,3 +1,12 @@
+import std;
+import directors;
+import dynamic;
+
+sub vcl_init {
+
+  new cluster = dynamic.director(port = "VARNISH_BACKEND_PORT", ttl = VARNISH_DNS_TTL);
+
+}
 
 acl purge {
     "localhost";
@@ -14,7 +23,7 @@ acl purge {
 
 sub vcl_recv {
 
-    set req.backend_hint = cluster_loadbalancer.backend();
+    set req.backend_hint = cluster.backend("VARNISH_BACKEND");
     set req.http.X-Varnish-Routed = "1";
 
 
@@ -286,19 +295,19 @@ sub vcl_backend_response {
     } elsif (beresp.http.Cache-Control ~ "private") {
         set beresp.http.X-Cacheable = "NO - Cache-Control=private";
         set beresp.uncacheable = true;
-        set beresp.ttl = 60s;
+        set beresp.ttl = VARNISH_BERESP_TTL;
     } elsif (beresp.http.Surrogate-control ~ "no-store") {
         set beresp.http.X-Cacheable = "NO - Surrogate-control=no-store";
         set beresp.uncacheable = true;
-        set beresp.ttl = 60s;
+        set beresp.ttl = VARNISH_BERESP_TTL;
     } elsif (!beresp.http.Surrogate-Control && beresp.http.Cache-Control ~ "no-cache|no-store") {
         set beresp.http.X-Cacheable = "NO - Cache-Control=no-cache|no-store";
         set beresp.uncacheable = true;
-        set beresp.ttl = 60s;
+        set beresp.ttl = VARNISH_BERESP_TTL;
     } elsif (beresp.http.Vary == "*") {
         set beresp.http.X-Cacheable = "NO - Vary=*";
         set beresp.uncacheable = true;
-        set beresp.ttl = 60s;
+        set beresp.ttl = VARNISH_BERESP_TTL;
 
     # ttl handling
     } elsif (beresp.ttl < 0s) {
@@ -330,8 +339,8 @@ sub vcl_backend_response {
         return(deliver);
     }
 
-    set beresp.grace = 120s;
-    set beresp.keep = 120s;
+    set beresp.ttl = VARNISH_BERESP_GRACE;
+    set beresp.ttl = VARNISH_BERESP_KEEP;
     return (deliver);
 
 }
@@ -369,21 +378,130 @@ sub vcl_deliver {
 
 sub vcl_backend_error {
   if ( beresp.status >= 500 && beresp.status <= 505) {
-    # synthetic(std.fileread("/etc/varnish/500msg.html"));
-    synthetic({"<?xml version="1.0" encoding="utf-8"?>
-        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-        <html>
-          <head>
-            <title>Varnish cache server: "} + beresp.status + " " + beresp.reason + {" </title>
-          </head>
-          <body>
-            <h1>Error "} + beresp.status + " " + beresp.reason + {"</h1>
-            <p>"} + beresp.reason + {"</p>
-            <hr>
-            <p>Varnish cache server</p>
-          </body>
-        </html>
+    synthetic({"<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+            <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+            <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <style type="text/css">
+            html,
+            body {
+              height: 100%;
+              width: 100%;
+              padding: 0;
+              margin: 0;
+              border: 0;
+              overflow: auto;
+              background-color: #006699;
+              color: #fff;
+              font-family: Arial,sans-serif;
+            }
+            .vertical-align {
+              display: block;
+              width: 400px;
+              position: relative;
+              top: 50%;
+              *top: 25%;
+              -webkit-transform: translateY(-50%);
+              -ms-transform: translateY(-50%);
+              transform: translateY(-50%);
+              margin: 0 auto;
+            }
+            button,
+            a.button,
+            a.button:link,
+            a.button:visited {
+              -webkit-appearance: none;
+              -webkit-border-radius: 3px;
+              -moz-border-radius: 3px;
+              -ms-border-radius: 3px;
+              -o-border-radius: 3px;
+              border-radius: 3px;
+              -webkit-background-clip: padding;
+              -moz-background-clip: padding;
+              background-clip: padding-box;
+              background: #dddddd repeat-x;
+              background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #dddddd));
+              background-image: -webkit-linear-gradient(#ffffff, #dddddd);
+              background-image: -moz-linear-gradient(#ffffff, #dddddd);
+              background-image: -o-linear-gradient(#ffffff, #dddddd);
+              background-image: linear-gradient(#ffffff, #dddddd);
+              border: 1px solid;
+              border-color: #bbbbbb;
+              cursor: pointer;
+              color: #333333;
+              display: inline-block;
+              font: 15px/20px Arial, sans-serif;
+              overflow: visible;
+              margin: 0;
+              padding: 3px 10px;
+              text-decoration: none;
+              vertical-align: top;
+              width: auto;
+              *padding-top: 2px;
+              *padding-bottom: 0;
+            }
+            .btn-eea {
+              background: #478ea5 repeat-x;
+              background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #478ea5), color-stop(100%, #346f83));
+              background-image: -webkit-linear-gradient(#478ea5, #346f83);
+              background-image: -moz-linear-gradient(#478ea5, #346f83);
+              background-image: -o-linear-gradient(#478ea5, #346f83);
+              background-image: linear-gradient(#478ea5, #346f83);
+              border: 1px solid;
+              border-color: #265a6c;
+              color: white;
+            }
+            button:hover,
+            a.button:hover {
+              background-image:none;
+            }
+            hr {
+              opacity: 0.5;
+              margin: 12px 0;
+              border: 0!important;
+              height: 1px;
+              background: white;
+            }
+            a,
+            a:link,
+            a:visited {
+              color: white;
+            }
+            .huge {
+              font-size: 72px;
+            }
+            .clearfix:before,
+            .clearfix:after {
+                display:table;
+                content:" ";
+            }
+            .clearfix:after{
+                clear:both;
+            }
+            .pull-left {
+                float: left;
+            }
+            .pull-right {
+                float: right;
+            }
+            </style>
+            </head>
+            <body>
+            <div class="vertical-align">
+              <div style="text-align: center;">
+                <h2 style="margin: 12px 0;">Our apologies, the website has encountered an error.</h2>
+                <hr>
+                <p style="font-style: italic;">We have been notified by the error and will look at it as soon as possible. You may want to visit the <a href="https://status.eea.europa.eu">EEA Systems Status</a> site to see latest status updates from EEA Systems.</p>
+                <p style="font-size: 90%"><a href="http://www.eea.europa.eu/">European Environment Agency</a>, Kongens Nytorv 6, 1050 Copenhagen K, Denmark - Phone: +45 3336 7100</p>  <br>
+                </p>
+              </div>
+            </div>
+            <script type="text/javascript">
+              document.getElementById("focus").focus();
+            </script>
+            </body></html>
     "});
+
   }
 
   return (deliver);
