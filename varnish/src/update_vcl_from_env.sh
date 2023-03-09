@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 
 for x in $(env | grep ^VARNISH_ | awk -F"=" '{print $1}'); do

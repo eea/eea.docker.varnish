@@ -8,7 +8,7 @@ COPY src/*.sh  /
 USER root
 
 RUN chown -R varnish:varnish /etc/varnish \
- && apk add --no-cache python3 \
+ && apk add --no-cache bash \
  && touch /var/crontab.txt
 
 HEALTHCHECK --interval=1m --timeout=3s \
