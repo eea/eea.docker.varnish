@@ -1,6 +1,10 @@
+vcl 4.1;
+
 import std;
 import directors;
 import dynamic;
+
+backend default none;
 
 sub vcl_init {
 
