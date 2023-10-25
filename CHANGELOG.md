@@ -1,5 +1,10 @@
 # Changelog
 
+## 2022-03-09 (7.2-1.0)
+
+- Upgrade to varnish 7.2
+- Remove unused scripts, as varnish is integrated with Rancher DNS and does not need them
+
 ## 2020-07-27 (4.1-6.5)
 
 - Add `BACKENDS_PURGE_LIST` variable #18
