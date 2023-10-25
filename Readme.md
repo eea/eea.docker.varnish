@@ -8,7 +8,7 @@ your non-related EEA projects.
 
  - Alpine 3.15
  - Varnish **7.2**
- - EXPOSE **6081 6085**
+ - Expose **80** **8443**
 
 ## Supported tags and respective Dockerfile links
 
@@ -18,8 +18,6 @@ your non-related EEA projects.
 
   - `:4.1-6.5` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/4.1-6.5/varnish/Dockerfile) - Varnish: **4.1.11** Release: **6.5**
   - `:7.2-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.2-1.0/Dockerfile) - Varnish: **7.2** Release: **1.0**
-
-
 
 See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 
@@ -40,7 +38,6 @@ See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 
 1. Install [Docker](https://www.docker.com/).
 
-
 ## Variables
 
 * `VARNISH_HTTP_PORT` - varnish port
@@ -48,7 +45,6 @@ See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 * `VARNISH_SIZE` - varnish cache size
 * `AUTOKILL_CRON` - Varnish re-create crontab, will force a recreation of the container. Uses UTC time, format is linux crontab - for example -  `0 2 * * *` is 02:00 UTC each day" 
 * `VARNISH_CFG_CONTENT` - Multiline variable that will be written in the `default.vcl` file
-
 
 ## Usage
 
@@ -93,7 +89,7 @@ Use `dynamic.director` to integrate varnish in rancher DNS - if a backend contai
 
 ### Example:
 
-You can use plone-varnish as an example of usage. 
+You can use [plone-varnish](https://github.com/eea/plone-varnish) as an example of usage. 
 
 ### Upgrade
 
