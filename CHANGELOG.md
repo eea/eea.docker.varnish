@@ -1,6 +1,10 @@
 # Changelog
 
-## 2022-03-09 (7.2-1.0)
+## 2023-10-25 (7.4-1.0)
+
+- Upgrade to varnish 7.4.1
+
+## 2023-03-09 (7.2-1.0)
 
 - Upgrade to varnish 7.2
 - Remove unused scripts, as varnish is integrated with Rancher DNS and does not need them
