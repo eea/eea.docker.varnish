@@ -1,5 +1,10 @@
 # Changelog
 
+## 2023-12-15 (7.4-1.1)
+
+- Upgrade to varnish 7.4.2
+- Upgrade to alpine 3.19
+
 ## 2023-10-25 (7.4-1.0)
 
 - Upgrade to varnish 7.4.1
