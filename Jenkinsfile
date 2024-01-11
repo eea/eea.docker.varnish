@@ -4,7 +4,7 @@ pipeline {
   environment {
     GIT_NAME = "eea.docker.varnish"
     registry = "eeacms/varnish"
-    DEPENDENT_DOCKERFILE_URL="eea/plone-varnish/blob/master/Dockerfile eea/plone-varnish/blob/plone5/Dockerfile"
+    DEPENDENT_DOCKERFILE_URL="eea/plone-varnish/blob/master/Dockerfile eea/plone-varnish/blob/master/plone5/Dockerfile"
   }
   
   stages {
