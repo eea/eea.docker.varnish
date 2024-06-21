@@ -1,5 +1,8 @@
 # Changelog
 
+## 2024-06-21 (7.5-1.0)
+- Upgrade to varnish 7.5.0
+
 ## 2023-12-15 (7.4-1.1)
 
 - Upgrade to varnish 7.4.2
