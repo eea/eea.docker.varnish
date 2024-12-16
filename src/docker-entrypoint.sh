@@ -21,6 +21,7 @@ fi
 # In case you wanted to keep the template vcl files in a read-only volume, use /varnish-config to store them
 
 if [ -d /varnish-config ] && [  $(find /varnish-config -type f -name "*.vcl" | wc -l) -ne 0  ] ; then
+   echo "Found /varnish-config volume templates. Will now copy them to /etc/varnish"
    rm -rf /etc/varnish
    cp -pr /varnish-config /etc/varnish
    chown -R varnish:varnish /etc/varnish
