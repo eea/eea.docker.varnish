@@ -20,6 +20,7 @@ your non-related EEA projects.
   - `:7.2-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.2-1.0/Dockerfile) - Varnish: **7.2** Release: **1.0**
   - `:7.4-1.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.4-1.1/Dockerfile) - Varnish: **7.4.2** Release: **1.1**
   - `:7.5-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.5-1.0/Dockerfile) - Varnish: **7.5.0** Release: **1.0**
+  - `:7.6-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.5-1.0/Dockerfile) - Varnish: **7.6.1** Release: **1.0**
 
 See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 
