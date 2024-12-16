@@ -7,7 +7,7 @@ This image is generic, thus you can obviously re-use it within
 your non-related EEA projects.
 
  - Alpine **3.19**
- - Varnish **7.5.0**
+ - Varnish **7.6.1**
  - Expose **80**, **8443**
 
 ## Supported tags and respective Dockerfile links
