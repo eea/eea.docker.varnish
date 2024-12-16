@@ -12,7 +12,7 @@ your non-related EEA projects.
 
 ## Supported tags and respective Dockerfile links
 
-  - `:7` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/7.x/Dockerfile) (Alpine 3.15, Varnish 7.4.2)
+  - `:7` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/7.x/Dockerfile) (Alpine 3.19, Varnish 7.6.1)
 
 ### Stable and immutable tags
 
