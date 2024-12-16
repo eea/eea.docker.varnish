@@ -2,7 +2,8 @@
 
 ## 2024-12-16 (7.6-1.0)
 - Upgrade to varnish 7.6.1
-
+- Add possibility to take default.vcl template file from /varnish-config without modifiying the file
+ 
 ## 2024-06-21 (7.5-1.0)
 - Upgrade to varnish 7.5.0
 
