@@ -18,6 +18,12 @@ if [ -n "$VARNISH_CFG_CONTENT" ]; then
     unset VARNISH_CFG_CONTENT
 fi
 
+# In case you wanted to keep the template vcl in a read-only volume, use /varnish-config 
+
+if [ -f /varnish-config/default.vcl ]; then
+   cp default.vcl /etc/varnish/default.vcl
+fi
+
 
 if [ $(env | grep -v ^VARNISH_HTTP_PORT | grep -v ^VARNISH_SIZE | grep ^VARNISH_ | wc -l ) -gt 0 ]; then
     /update_vcl_from_env.sh
