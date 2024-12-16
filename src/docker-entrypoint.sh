@@ -18,10 +18,10 @@ if [ -n "$VARNISH_CFG_CONTENT" ]; then
     unset VARNISH_CFG_CONTENT
 fi
 
-# In case you wanted to keep the template vcl in a read-only volume, use /varnish-config 
+# In case you wanted to keep the template vcl files in a read-only volume, use /varnish-config to store them
 
-if [ -f /varnish-config/default.vcl ]; then
-   cp default.vcl /etc/varnish/default.vcl
+if [ -d /varnish-config ] && [  $(find /varnish-config -type f -name *.vcl | wc -l) -ne 0  ] ; then
+   cp -pr /varnish-config/* /etc/varnish/
 fi
 
 
