@@ -63,7 +63,7 @@ elaborate base configuration in your container and you want it shipped with
 your image, you can extend the image in a Dockerfile, like this:
 
     FROM eeacms/varnish
-    COPY varnish.vcl /etc/varnish/conf.d/
+    COPY varnish.vcl /etc/varnish/default.vcl
 
 and then run
 
@@ -82,6 +82,10 @@ and then run
       set req.http.X-Varnish-Routed = "<VARNISH_EXAMPLE>";
 
 4. Add description in `Readme.md`
+
+### Using a read-only volume for the vcl template files - `/varnish-config`
+
+The volume `/varnish-config` will be used to store the read only vcl template configuration files. They will be copied with the same structure to /etc/varnish, where the variable substitution will be done. 
 
 ### Rancher integration
 
