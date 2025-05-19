@@ -1,4 +1,4 @@
-FROM varnish:7.6.3-alpine
+FROM varnish:7.7.1-alpine
 
 MAINTAINER "EEA: IDM2 A-Team" <eea-edw-a-team-alerts@googlegroups.com>
 
