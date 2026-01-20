@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-01-20 (8.0-1.0)
+- Upgrade to varnish 8.0.0
+
 ## 2024-12-16 (7.6-1.0)
 - Upgrade to varnish 7.6.1
 - Add possibility to use vcl template files from /varnish-config read-only volume
