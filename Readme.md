@@ -13,7 +13,10 @@ your non-related EEA projects.
 ## Supported tags and respective Dockerfile links
 
   - `:7` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/7.x/Dockerfile) (Alpine 3.22, Varnish 7.7.3)
-  - `:8` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/8.x/Dockerfile) (Alpine 3.22, Varnish 8.0.0)
+  - `:8` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/8.x/Dockerfile) (Alpine 3.23, Varnish 8.0.2)
+  - `:9` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/8.x/Dockerfile) (Alpine 3.23, Varnish 9.0.3)
+
+
 
 ### Stable and immutable tags
 
@@ -21,9 +24,9 @@ your non-related EEA projects.
   - `:7.2-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.2-1.0/Dockerfile) - Varnish: **7.2** Release: **1.0**
   - `:7.4-1.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.4-1.1/Dockerfile) - Varnish: **7.4.2** Release: **1.1**
   - `:7.5-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.5-1.0/Dockerfile) - Varnish: **7.5.0** Release: **1.0**
-  - `:7.6-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.5-1.0/Dockerfile) - Varnish: **7.6.1** Release: **1.0**
-  - `:7.7-1.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.5-1.0/Dockerfile) - Varnish: **7.7.3** Release: **1.1**
-  - `:8.0-1.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.5-1.0/Dockerfile) - Varnish: **8.0.2** Release: **1.1**
+  - `:7.6-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.6-1.0/Dockerfile) - Varnish: **7.6.1** Release: **1.0**
+  - `:7.7-1.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.7-1.1/Dockerfile) - Varnish: **7.7.3** Release: **1.1**
+  - `:8.0-1.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/8.0-1.1/Dockerfile) - Varnish: **8.0.2** Release: **1.1**
 
 See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 
