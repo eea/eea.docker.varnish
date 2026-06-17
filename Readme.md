@@ -6,8 +6,8 @@ and reload.
 This image is generic, thus you can obviously re-use it within
 your non-related EEA projects.
 
- - Alpine **3.22**
- - Varnish **8.0.0**
+ - Alpine **3.23**
+ - Varnish **8.0.2**
  - Expose **80**, **8443**
 
 ## Supported tags and respective Dockerfile links
@@ -23,7 +23,7 @@ your non-related EEA projects.
   - `:7.5-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.5-1.0/Dockerfile) - Varnish: **7.5.0** Release: **1.0**
   - `:7.6-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.5-1.0/Dockerfile) - Varnish: **7.6.1** Release: **1.0**
   - `:7.7-1.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.5-1.0/Dockerfile) - Varnish: **7.7.3** Release: **1.1**
-  - `:8.0-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.5-1.0/Dockerfile) - Varnish: **8.0.0** Release: **1.0**
+  - `:8.0-1.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.5-1.0/Dockerfile) - Varnish: **8.0.2** Release: **1.1**
 
 See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 

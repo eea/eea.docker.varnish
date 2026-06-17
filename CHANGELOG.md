@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-01-20 (8.0-1.1)
+- Upgrade to varnish 8.0.2
+
 ## 2026-01-20 (8.0-1.0)
 - Upgrade to varnish 8.0.0
 
