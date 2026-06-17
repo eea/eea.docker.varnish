@@ -1,15 +1,13 @@
-FROM varnish:8.0.2-alpine
+FROM varnish:9.0.3
 
-MAINTAINER "EEA: IDM2 A-Team" <eea-edw-a-team-alerts@googlegroups.com>
-
+LABEL maintainer="EEA: IDM2 A-Team <eea-edw-a-team-alerts@googlegroups.com>"
 
 COPY src/*.sh  /
 
 USER root
 
 RUN chown -R varnish:varnish /etc/varnish \
- && apk add --no-cache bash curl \
- && touch /var/crontab.txt
+  && touch /var/crontab.txt
 
 HEALTHCHECK --interval=1m --timeout=3s \
   CMD ["/docker-healthcheck.sh"]

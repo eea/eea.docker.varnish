@@ -6,15 +6,15 @@ and reload.
 This image is generic, thus you can obviously re-use it within
 your non-related EEA projects.
 
- - Alpine **3.23**
- - Varnish **8.0.2**
+ - Debian **13**
+ - Varnish **9.0.3**
  - Expose **80**, **8443**
 
 ## Supported tags and respective Dockerfile links
 
   - `:7` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/7.x/Dockerfile) (Alpine 3.22, Varnish 7.7.3)
   - `:8` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/8.x/Dockerfile) (Alpine 3.23, Varnish 8.0.2)
-  - `:9` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/8.x/Dockerfile) (Alpine 3.23, Varnish 9.0.3)
+  - `:9` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/8.x/Dockerfile) (Debian 13, Varnish 9.0.3)
 
 
 
