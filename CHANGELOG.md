@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-10 (7.7-1.2)
+- Fix healthcheck: use `varnishadm status` instead of the removed varnish-agent dashboard (port 6085)
+
 ## 2024-12-16 (7.6-1.0)
 - Upgrade to varnish 7.6.1
 - Add possibility to use vcl template files from /varnish-config read-only volume

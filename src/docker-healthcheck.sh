@@ -1,20 +1,14 @@
 #!/bin/sh
-set -eo pipefail
+# Healthy when the varnishd management process reports a running child.
+# Uses the local admin socket (secret is read from the varnish work dir),
+# so it does not depend on the backend being up.
 
+status=$(varnishadm status 2>&1)
 
-USER=${DASHBOARD_USER:-"admin"}
-PASS=${DASHBOARD_PASSWORD:-"admin"}
-PORT=${DASHBOARD_PORT:-"6085"}
+echo "$status"
 
-
-health=$(curl -s -u$USER:$PASS "http://localhost:$PORT/status")
-
-health=${health:-"Dashboard down"}
-
-echo $health
-
-if [[ $health == "Child in state running" ]]; then
-  exit 0
-fi
+case "$status" in
+  *"Child in state running"*) exit 0 ;;
+esac
 
 exit 1
