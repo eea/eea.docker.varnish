@@ -100,6 +100,19 @@ Use `dynamic.director` to integrate varnish in rancher DNS - if a backend contai
 
       new cluster = dynamic.director(port = "<VARNISH_BACKEND_PORT>", ttl = <VARNISH_DNS_TTL>);
 
+`vmod_dynamic` is not part of the official varnish 9 image; this image builds it from the
+[libvmod-dynamic](https://github.com/nigoroll/libvmod-dynamic) `9.1` branch.
+
+### Upgrading VCL from varnish 7/8
+
+Varnish 9 removed the `synthetic()` function. Assign the body directly instead -
+this also works on varnish 7 and 8:
+
+      # vcl_synth
+      set resp.body = {"<html>...</html>"};
+      # vcl_backend_error
+      set beresp.body = {"<html>...</html>"};
+
 
 ### Example:
 

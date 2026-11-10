@@ -2,6 +2,7 @@
 
 ## 2026-11-10 (9.1-1.0)
 - Upgrade to varnish 9.1.0
+- Add `vmod_dynamic` (no longer shipped in the official varnish 9 image), built from the libvmod-dynamic 9.1 branch
 - Fix `VARNISH_CFG_CONTENT` writing a literal `-e` into default.vcl (`/bin/sh` is dash on Debian)
 - Fix healthcheck: use `varnishadm status` instead of the removed varnish-agent dashboard (port 6085)
 
