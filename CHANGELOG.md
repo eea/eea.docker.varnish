@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-10 (8.0-1.2)
+- Fix healthcheck: use `varnishadm status` instead of the removed varnish-agent dashboard (port 6085)
+
 ## 2026-01-20 (8.0-1.1)
 - Upgrade to varnish 8.0.2
 

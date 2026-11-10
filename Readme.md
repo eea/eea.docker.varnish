@@ -27,6 +27,7 @@ your non-related EEA projects.
   - `:7.6-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.6-1.0/Dockerfile) - Varnish: **7.6.1** Release: **1.0**
   - `:7.7-1.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.7-1.1/Dockerfile) - Varnish: **7.7.3** Release: **1.1**
   - `:8.0-1.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/8.0-1.1/Dockerfile) - Varnish: **8.0.2** Release: **1.1**
+  - `:8.0-1.2` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/8.0-1.2/Dockerfile) - Varnish: **8.0.2** Release: **1.2**
 
 See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 
