@@ -7,14 +7,14 @@ This image is generic, thus you can obviously re-use it within
 your non-related EEA projects.
 
  - Debian **13**
- - Varnish **9.0.3**
+ - Varnish **9.1.0**
  - Expose **80**, **8443**
 
 ## Supported tags and respective Dockerfile links
 
   - `:7` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/7.x/Dockerfile) (Alpine 3.22, Varnish 7.7.3)
   - `:8` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/8.x/Dockerfile) (Alpine 3.23, Varnish 8.0.2)
-  - `:9` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/8.x/Dockerfile) (Debian 13, Varnish 9.0.3)
+  - `:9` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/blob/9.x/Dockerfile) (Debian 13, Varnish 9.1.0)
 
 
 
@@ -27,6 +27,7 @@ your non-related EEA projects.
   - `:7.6-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.6-1.0/Dockerfile) - Varnish: **7.6.1** Release: **1.0**
   - `:7.7-1.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.7-1.1/Dockerfile) - Varnish: **7.7.3** Release: **1.1**
   - `:8.0-1.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/8.0-1.1/Dockerfile) - Varnish: **8.0.2** Release: **1.1**
+  - `:9.1-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/9.1-1.0/Dockerfile) - Varnish: **9.1.0** Release: **1.0**
 
 See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 

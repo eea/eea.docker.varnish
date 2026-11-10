@@ -14,7 +14,7 @@ if [ -n "$AUTOKILL_CRON" ]; then
 fi
 
 if [ -n "$VARNISH_CFG_CONTENT" ]; then
-    echo -e "$VARNISH_CFG_CONTENT" > /etc/varnish/default.vcl
+    printf "%b\n" "$VARNISH_CFG_CONTENT" > /etc/varnish/default.vcl
     unset VARNISH_CFG_CONTENT
 fi
 

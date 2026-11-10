@@ -1,4 +1,4 @@
-FROM varnish:9.0.3
+FROM varnish:9.1.0
 
 LABEL maintainer="EEA: IDM2 A-Team <eea-edw-a-team-alerts@googlegroups.com>"
 

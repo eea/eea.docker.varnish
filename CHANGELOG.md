@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-10 (9.1-1.0)
+- Upgrade to varnish 9.1.0
+- Fix `VARNISH_CFG_CONTENT` writing a literal `-e` into default.vcl (`/bin/sh` is dash on Debian)
+- Fix healthcheck: use `varnishadm status` instead of the removed varnish-agent dashboard (port 6085)
+
 ## 2026-01-20 (8.0-1.1)
 - Upgrade to varnish 8.0.2
 
