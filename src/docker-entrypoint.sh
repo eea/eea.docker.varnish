@@ -10,7 +10,7 @@ if [ -n "$AUTOKILL_CRON" ]; then
      echo "$AUTOKILL_CRON /stop_varnish_cache.sh  | logger " >> /var/crontab.txt	
     #add crontab
      crontab /var/crontab.txt
-     crond
+     cron
 fi
 
 if [ -n "$VARNISH_CFG_CONTENT" ]; then

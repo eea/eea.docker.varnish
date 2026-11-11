@@ -26,8 +26,12 @@ COPY src/*.sh  /
 
 USER root
 
-RUN chown -R varnish:varnish /etc/varnish \
-  && touch /var/crontab.txt
+# cron is needed by AUTOKILL_CRON (the debian based varnish 9 image does not ship it)
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends cron \
+ && rm -rf /var/lib/apt/lists/* \
+ && chown -R varnish:varnish /etc/varnish \
+ && touch /var/crontab.txt
 
 HEALTHCHECK --interval=1m --timeout=3s \
   CMD ["/docker-healthcheck.sh"]

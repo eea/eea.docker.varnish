@@ -6,7 +6,7 @@ and reload.
 This image is generic, thus you can obviously re-use it within
 your non-related EEA projects.
 
- - Debian **13**
+ - Debian **13** (trixie) - since `9.x`, based on the official Debian `varnish` image (`7.x` and `8.x` are Alpine)
  - Varnish **9.1.0**
  - Expose **80**, **8443**
 
@@ -25,8 +25,8 @@ your non-related EEA projects.
   - `:7.4-1.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.4-1.1/Dockerfile) - Varnish: **7.4.2** Release: **1.1**
   - `:7.5-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.5-1.0/Dockerfile) - Varnish: **7.5.0** Release: **1.0**
   - `:7.6-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.6-1.0/Dockerfile) - Varnish: **7.6.1** Release: **1.0**
-  - `:7.7-1.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.7-1.1/Dockerfile) - Varnish: **7.7.3** Release: **1.1**
-  - `:8.0-1.1` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/8.0-1.1/Dockerfile) - Varnish: **8.0.2** Release: **1.1**
+  - `:7.7-1.2` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/7.7-1.2/Dockerfile) - Varnish: **7.7.3** Release: **1.2**
+  - `:8.0-1.2` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/8.0-1.2/Dockerfile) - Varnish: **8.0.2** Release: **1.2**
   - `:9.1-1.0` [*Dockerfile*](https://github.com/eea/eea.docker.varnish/tree/9.1-1.0/Dockerfile) - Varnish: **9.1.0** Release: **1.0**
 
 See [older versions](https://github.com/eea/eea.docker.varnish/releases)
@@ -60,7 +60,7 @@ See [older versions](https://github.com/eea/eea.docker.varnish/releases)
 
 ### Using `VARNISH_CFG_CONTENT`
 
-See [docker-compose.yml](https://github.com/eea/eea.docker.varnish/blob/7.x/docker-compose.yml).
+See [docker-compose.yml](https://github.com/eea/eea.docker.varnish/blob/9.x/docker-compose.yml).
 
 ### Extend the image with a custom varnish.vcl file
 
@@ -103,7 +103,11 @@ Use `dynamic.director` to integrate varnish in rancher DNS - if a backend contai
 `vmod_dynamic` is not part of the official varnish 9 image; this image builds it from the
 [libvmod-dynamic](https://github.com/nigoroll/libvmod-dynamic) `9.1` branch.
 
-### Upgrading VCL from varnish 7/8
+### Upgrading from varnish 7/8
+
+The image is now Debian based instead of Alpine. If you extend it, install packages
+with `apt-get` instead of `apk`, and note that `/bin/sh` is `dash`, not busybox `ash`
+(for example `echo -e` is not supported, use `printf`).
 
 Varnish 9 removed the `synthetic()` function. Assign the body directly instead -
 this also works on varnish 7 and 8:

@@ -5,6 +5,8 @@
 - Add `vmod_dynamic` (no longer shipped in the official varnish 9 image), built from the libvmod-dynamic 9.1 branch
 - Fix `VARNISH_CFG_CONTENT` writing a literal `-e` into default.vcl (`/bin/sh` is dash on Debian)
 - Fix healthcheck: use `varnishadm status` instead of the removed varnish-agent dashboard (port 6085)
+- Based on the official Debian (trixie) `varnish` image instead of Alpine
+- Fix `AUTOKILL_CRON`: install `cron` (Debian has no `crond`)
 
 ## 2026-01-20 (8.0-1.1)
 - Upgrade to varnish 8.0.2
